@@ -72,20 +72,20 @@ jobs:
         run: |
           composer install --no-progress --prefer-dist --optimize-autoloader
           composer require predis/predis illuminate/redis
-#      - name: Prepare the application
-#        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+      - name: Prepare the application
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
 
       - name: Register Redis as service provider
         run: sed -i '$i\$app->register(Illuminate\\Redis\\RedisServiceProvider::class);' bootstrap/app.php
 
       - name: Run Migration
         run: php artisan migrate --database=testing -v
-#        env:
-#          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
-#          REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+        env:
+          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+          REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
 
       - name: Test with phpunit
         run: vendor/bin/phpunit --coverage-text
-#        env:
-#          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
-#          REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+        env:
+          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+          REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
