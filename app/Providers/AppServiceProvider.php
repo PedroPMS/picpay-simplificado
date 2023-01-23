@@ -3,25 +3,20 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Picpay\Shared\Domain\UuidGeneratorInterface;
+use Picpay\Shared\Infrastructure\RamseyUuidGenerator;
+use Picpay\User\Domain\UserRepository;
+use Picpay\User\Infrastructure\Database\UserEloquentRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
+    public function register(): void
     {
-        //
+        $this->app->bind(UuidGeneratorInterface::class, RamseyUuidGenerator::class);
+        $this->app->bind(UserRepository::class, UserEloquentRepository::class);
     }
 
-    /**
-     * Bootstrap any application services.
-     *
-     * @return void
-     */
-    public function boot()
+    public function boot(): void
     {
         //
     }
