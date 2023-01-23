@@ -26,5 +26,7 @@ RUN mkdir /var/log/php
 RUN touch /var/log/php/errors.log && chmod +x /var/log/php/errors.log
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
+USER www
+
 EXPOSE 9000
 CMD ["php-fpm"]
