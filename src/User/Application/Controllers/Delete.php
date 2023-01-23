@@ -1,6 +1,6 @@
 <?php
 
-namespace Picpay\User\Application;
+namespace Picpay\User\Application\Controllers;
 
 use Picpay\User\Domain\Exceptions\UserNotFoundException;
 use Picpay\User\Domain\Services\UserDeletor;

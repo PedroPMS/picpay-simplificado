@@ -2,8 +2,8 @@
 
 namespace Picpay\User\Domain\Repositories;
 
-use Picpay\User\Domain\User;
-use Picpay\User\Domain\Users;
+use Picpay\User\Domain\Collections\Users;
+use Picpay\User\Domain\Entities\User;
 use Picpay\User\Domain\ValueObject\UserCpf;
 use Picpay\User\Domain\ValueObject\UserEmail;
 use Picpay\User\Domain\ValueObject\UserId;

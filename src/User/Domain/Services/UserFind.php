@@ -2,9 +2,9 @@
 
 namespace Picpay\User\Domain\Services;
 
+use Picpay\User\Domain\Entities\User;
 use Picpay\User\Domain\Exceptions\UserNotFoundException;
 use Picpay\User\Domain\Repositories\UserRepository;
-use Picpay\User\Domain\User;
 use Picpay\User\Domain\ValueObject\UserId;
 
 class UserFind

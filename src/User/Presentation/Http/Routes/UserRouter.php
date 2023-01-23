@@ -10,6 +10,8 @@ class UserRouter extends RouteServiceProvider
 {
     public function boot(): void
     {
+        parent::boot();
+
         Route::middleware(['web'])->prefix('users')->name('users.')->group(function () {
             Route::get('', [UserController::class, 'index']);
             Route::get('/{id}', [UserController::class, 'show']);

@@ -2,8 +2,8 @@
 
 namespace Picpay\User\Domain\Services;
 
+use Picpay\User\Domain\Collections\Users;
 use Picpay\User\Domain\Repositories\UserRepository;
-use Picpay\User\Domain\Users;
 
 class UsersGet
 {

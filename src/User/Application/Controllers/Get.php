@@ -1,6 +1,6 @@
 <?php
 
-namespace Picpay\User\Application;
+namespace Picpay\User\Application\Controllers;
 
 use Picpay\User\Application\Resources\UsersResponse;
 use Picpay\User\Domain\Services\UsersGet;

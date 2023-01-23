@@ -1,6 +1,6 @@
 <?php
 
-namespace Picpay\User\Application;
+namespace Picpay\User\Application\Controllers;
 
 use Picpay\User\Application\Resources\UserResponse;
 use Picpay\User\Domain\Exceptions\UserNotFoundException;

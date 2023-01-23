@@ -1,6 +1,6 @@
 <?php
 
-namespace Picpay\User\Domain;
+namespace Picpay\User\Domain\Entities;
 
 use JsonSerializable;
 use Picpay\User\Domain\Enums\UserType;

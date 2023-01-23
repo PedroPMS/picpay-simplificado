@@ -3,8 +3,8 @@
 namespace Picpay\User\Application\Resources;
 
 use Picpay\Shared\Domain\ResponseInterface;
-use Picpay\User\Domain\User;
-use Picpay\User\Domain\Users;
+use Picpay\User\Domain\Collections\Users;
+use Picpay\User\Domain\Entities\User;
 
 final class UsersResponse implements ResponseInterface
 {
