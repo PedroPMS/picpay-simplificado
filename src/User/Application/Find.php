@@ -15,7 +15,7 @@ class Find
     /**
      * @throws UserNotFoundException
      */
-    public function handle(string $id): UserResponse
+    public function findUser(string $id): UserResponse
     {
         $userId = UserId::fromValue($id);
         $user = $this->userFind->handle($userId);

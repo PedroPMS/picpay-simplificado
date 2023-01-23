@@ -2,37 +2,38 @@
 
 namespace Picpay\User\Application;
 
-use Picpay\Shared\Domain\UuidGeneratorInterface;
 use Picpay\User\Domain\Enums\UserType;
 use Picpay\User\Domain\Exceptions\UserAlreadyExistsException;
+use Picpay\User\Domain\Exceptions\UserNotFoundException;
 use Picpay\User\Domain\Exceptions\UserTypeException;
-use Picpay\User\Domain\UseCases\UserCreator;
+use Picpay\User\Domain\UseCases\UserUpdater;
 use Picpay\User\Domain\ValueObject\UserCpf;
 use Picpay\User\Domain\ValueObject\UserEmail;
 use Picpay\User\Domain\ValueObject\UserId;
 use Picpay\User\Domain\ValueObject\UserName;
-use Picpay\User\Domain\ValueObject\UserPassword;
 
-class Create
+class Update
 {
-    public function __construct(private readonly UserCreator $userCreator, private readonly UuidGeneratorInterface $uuidGenerator)
+    public function __construct(private readonly UserUpdater $userUpdater)
     {
     }
 
     /**
      * @throws UserTypeException
      * @throws UserAlreadyExistsException
+     * @throws UserNotFoundException
      */
-    public function createUser(string $name, string $email, string $cpf, string $password, string $type): UserResponse
+    public function updateUser(string $id, string $name, string $email, string $cpf, string $type): UserResponse
     {
-        $userId = UserId::fromValue($this->uuidGenerator->generate());
+        $userId = UserId::fromValue($id);
         $userName = UserName::fromValue($name);
         $userEmail = UserEmail::fromValue($email);
         $userCpf = UserCpf::fromValue($cpf);
-        $userPassword = UserPassword::fromValue($password);
         $userType = UserType::fromValue($type);
 
-        $user = $this->userCreator->handle($userId, $userName, $userEmail, $userCpf, $userPassword, $userType);
+
+        $user = $this->userUpdater->handle($userId, $userName, $userEmail, $userCpf, $userType);
+
         return UserResponse::fromUser($user);
     }
 }

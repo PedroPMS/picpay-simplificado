@@ -2,6 +2,7 @@
 
 namespace Picpay\User\Domain\UseCases;
 
+use Picpay\User\Domain\Enums\UserType;
 use Picpay\User\Domain\Exceptions\UserAlreadyExistsException;
 use Picpay\User\Domain\Exceptions\UserNotFoundException;
 use Picpay\User\Domain\User;
@@ -25,12 +26,12 @@ class UserUpdater
      * @throws UserAlreadyExistsException
      * @throws UserNotFoundException
      */
-    public function handle(UserId $id, UserName $name, UserEmail $email, UserCpf $cpf): User
+    public function handle(UserId $id, UserName $name, UserEmail $email, UserCpf $cpf, UserType $type): User
     {
         $user = $this->userFind->handle($id);
         $this->dataAlreadyExists->handle($email, $cpf, $id);
 
-        $user = User::create($id, $name, $email, $cpf, $user->password);
+        $user = User::create($id, $name, $email, $cpf, $user->password, $type);
         $this->repository->update($user);
 
         return $user;

@@ -2,7 +2,6 @@
 
 namespace Picpay\User\Application;
 
-use Picpay\User\Application\UsersResponse;
 use Picpay\User\Domain\UseCases\UsersGet;
 
 class Get
@@ -11,7 +10,7 @@ class Get
     {
     }
 
-    public function handle(): UsersResponse
+    public function getUsers(): UsersResponse
     {
         $users = $this->usersGet->handle();
 
