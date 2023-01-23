@@ -1,6 +1,6 @@
 <?php
 
-namespace Picpay\User\Presentation\Requests;
+namespace Picpay\User\Presentation\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Picpay\User\Presentation\Controllers\UserController;
+use Picpay\User\Presentation\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------

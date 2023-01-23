@@ -1,6 +1,6 @@
 <?php
 
-namespace Picpay\User\Presentation\Controllers;
+namespace Picpay\User\Presentation\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
@@ -13,8 +13,8 @@ use Picpay\User\Application\Update;
 use Picpay\User\Domain\Exceptions\UserAlreadyExistsException;
 use Picpay\User\Domain\Exceptions\UserNotFoundException;
 use Picpay\User\Domain\Exceptions\UserTypeException;
-use Picpay\User\Presentation\Requests\CreateUserRequest;
-use Picpay\User\Presentation\Requests\UdpateUserRequest;
+use Picpay\User\Presentation\Http\Requests\CreateUserRequest;
+use Picpay\User\Presentation\Http\Requests\UdpateUserRequest;
 use Symfony\Component\HttpFoundation\Response as StatusCode;
 
 class UserController extends Controller
