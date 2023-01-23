@@ -80,12 +80,12 @@ jobs:
 
       - name: Run Migration
         run: php artisan migrate --database=testing -v
-        env:
-          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
-          REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+#        env:
+#          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+#          REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
 
       - name: Test with phpunit
         run: vendor/bin/phpunit --coverage-text
-        env:
-          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
-          REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+#        env:
+#          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+#          REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
