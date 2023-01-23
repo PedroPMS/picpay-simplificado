@@ -9,9 +9,6 @@ jobs:
       DB_DATABASE: picpay
       DB_USERNAME: root
       DB_PASSWORD: root
-      DB_TEST_DATABASE: picpay
-      DB_TEST_USERNAME: root
-      DB_TEST_PASSWORD: root
       BROADCAST_DRIVER: log
       CACHE_DRIVER: redis
       QUEUE_CONNECTION: redis
@@ -79,7 +76,7 @@ jobs:
         run: sed -i '$i\$app->register(Illuminate\\Redis\\RedisServiceProvider::class);' bootstrap/app.php
 
       - name: Run Migration
-        run: php artisan migrate --database=testing -v
+        run: php artisan migrate -v
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
           REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
