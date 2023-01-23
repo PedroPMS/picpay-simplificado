@@ -5,8 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Picpay\Shared\Domain\UuidGeneratorInterface;
 use Picpay\Shared\Infrastructure\RamseyUuidGenerator;
-use Picpay\User\Domain\UserRepository;
-use Picpay\User\Infrastructure\Database\UserEloquentRepository;
+use Picpay\User\Domain\Repositories\UserRepository;
+use Picpay\User\Infrastructure\Repositories\UserEloquentRepository;
 use Picpay\User\Presentation\Http\Routes\UserRouter;
 
 class AppServiceProvider extends ServiceProvider

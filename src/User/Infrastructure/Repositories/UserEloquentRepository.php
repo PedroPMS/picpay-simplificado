@@ -1,15 +1,16 @@
 <?php
 
-namespace Picpay\User\Infrastructure\Database;
+namespace Picpay\User\Infrastructure\Repositories;
 
+use Exception;
 use Picpay\User\Domain\Exceptions\UserTypeException;
+use Picpay\User\Domain\Repositories\UserRepository;
 use Picpay\User\Domain\User;
-use Picpay\User\Domain\UserRepository;
 use Picpay\User\Domain\Users;
 use Picpay\User\Domain\ValueObject\UserCpf;
 use Picpay\User\Domain\ValueObject\UserEmail;
 use Picpay\User\Domain\ValueObject\UserId;
-use Exception;
+use Picpay\User\Infrastructure\Models\UserModel;
 
 final class UserEloquentRepository implements UserRepository
 {

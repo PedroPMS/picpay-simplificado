@@ -1,6 +1,6 @@
 <?php
 
-namespace Picpay\User\Application;
+namespace Picpay\User\Application\Resources;
 
 use Picpay\Shared\Domain\ResponseInterface;
 use Picpay\User\Domain\User;

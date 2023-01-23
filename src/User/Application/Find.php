@@ -2,8 +2,9 @@
 
 namespace Picpay\User\Application;
 
+use Picpay\User\Application\Resources\UserResponse;
 use Picpay\User\Domain\Exceptions\UserNotFoundException;
-use Picpay\User\Domain\UseCases\UserFind;
+use Picpay\User\Domain\Services\UserFind;
 use Picpay\User\Domain\ValueObject\UserId;
 
 class Find

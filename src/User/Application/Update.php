@@ -2,11 +2,12 @@
 
 namespace Picpay\User\Application;
 
+use Picpay\User\Application\Resources\UserResponse;
 use Picpay\User\Domain\Enums\UserType;
 use Picpay\User\Domain\Exceptions\UserAlreadyExistsException;
 use Picpay\User\Domain\Exceptions\UserNotFoundException;
 use Picpay\User\Domain\Exceptions\UserTypeException;
-use Picpay\User\Domain\UseCases\UserUpdater;
+use Picpay\User\Domain\Services\UserUpdater;
 use Picpay\User\Domain\ValueObject\UserCpf;
 use Picpay\User\Domain\ValueObject\UserEmail;
 use Picpay\User\Domain\ValueObject\UserId;

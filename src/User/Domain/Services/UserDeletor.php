@@ -1,9 +1,9 @@
 <?php
 
-namespace Picpay\User\Domain\UseCases;
+namespace Picpay\User\Domain\Services;
 
 use Picpay\User\Domain\Exceptions\UserNotFoundException;
-use Picpay\User\Domain\UserRepository;
+use Picpay\User\Domain\Repositories\UserRepository;
 use Picpay\User\Domain\ValueObject\UserId;
 
 class UserDeletor

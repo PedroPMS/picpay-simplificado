@@ -1,12 +1,11 @@
 <?php
 
-namespace Picpay\User\Infrastructure\Database;
+namespace Picpay\User\Infrastructure\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Picpay\User\Domain\Enums\UserType;
 
 /**
  * @property string $id

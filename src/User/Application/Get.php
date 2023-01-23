@@ -2,7 +2,8 @@
 
 namespace Picpay\User\Application;
 
-use Picpay\User\Domain\UseCases\UsersGet;
+use Picpay\User\Application\Resources\UsersResponse;
+use Picpay\User\Domain\Services\UsersGet;
 
 class Get
 {

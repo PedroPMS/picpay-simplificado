@@ -3,7 +3,7 @@
 namespace Picpay\User\Application;
 
 use Picpay\User\Domain\Exceptions\UserNotFoundException;
-use Picpay\User\Domain\UseCases\UserDeletor;
+use Picpay\User\Domain\Services\UserDeletor;
 use Picpay\User\Domain\ValueObject\UserId;
 
 class Delete
