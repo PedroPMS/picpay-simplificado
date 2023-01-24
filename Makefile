@@ -34,4 +34,7 @@ migrate:
 push:
 	    @docker push ${IMAGEFULLNAME}
 
+docs:
+	    @docker exec -it picpay-api php artisan scribe:generate
+
 all: build push
