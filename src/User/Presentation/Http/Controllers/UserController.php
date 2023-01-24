@@ -19,6 +19,13 @@ use Symfony\Component\HttpFoundation\Response as StatusCode;
 
 class UserController extends Controller
 {
+    /**
+     * List users
+     *
+     * List all users
+     * @responseFile api/Users/List.json
+     * @group Users
+     */
     public function index(Get $getAction): JsonResponse
     {
         $usersResponse = $getAction->getUsers();
@@ -27,6 +34,11 @@ class UserController extends Controller
     }
 
     /**
+     * Show user
+     *
+     * Show specific user
+     * @group Users
+     * @responseFile api/Users/Show.json
      * @throws UserNotFoundException
      */
     public function show(string $id, Find $findAction): JsonResponse
@@ -37,6 +49,11 @@ class UserController extends Controller
     }
 
     /**
+     * Create user
+     *
+     * Create a user
+     * @group Users
+     * @responseFile api/Users/Show.json
      * @throws UserTypeException
      * @throws UserAlreadyExistsException
      */
@@ -54,6 +71,11 @@ class UserController extends Controller
     }
 
     /**
+     * Update user
+     *
+     * Update a user
+     * @group Users
+     * @responseFile api/Users/Show.json
      * @throws UserNotFoundException
      * @throws UserTypeException
      * @throws UserAlreadyExistsException
@@ -72,6 +94,11 @@ class UserController extends Controller
     }
 
     /**
+     * Delete user
+     *
+     * Delete a user
+     * @group Users
+     * @response 204
      * @throws UserNotFoundException
      */
     public function delete(string $id, Delete $deleteAction): Response
