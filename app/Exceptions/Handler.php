@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Picpay\Shared\Domain\DomainException;
 
 class Handler extends ExceptionHandler
 {
@@ -42,5 +43,8 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
+        $this->renderable(function (DomainException $e) {
+            return response()->json(['message' => $e->getMessage()], $e->getCode());
+        });
     }
 }

@@ -6,11 +6,13 @@
     "license": "MIT",
     "require": {
         "php": "^8.1.13",
+        "ext-pdo": "*",
         "guzzlehttp/guzzle": "^7.2",
+        "lambdish/phunctional": "^2.1",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
-        "ext-pdo": "*"
+        "symfony/messenger": "^6.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
