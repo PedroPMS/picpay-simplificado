@@ -4,14 +4,16 @@ namespace Picpay\Domain\Entities;
 
 use JsonSerializable;
 use Picpay\Domain\Enums\User\UserType;
+use Picpay\Domain\Events\User\UserWasPersisted;
 use Picpay\Domain\Exceptions\User\UserTypeException;
 use Picpay\Domain\ValueObjects\User\UserCpf;
 use Picpay\Domain\ValueObjects\User\UserEmail;
 use Picpay\Domain\ValueObjects\User\UserId;
 use Picpay\Domain\ValueObjects\User\UserName;
 use Picpay\Domain\ValueObjects\User\UserPassword;
+use Picpay\Shared\Domain\Aggregate\AggregateRoot;
 
-class User implements JsonSerializable
+class User extends AggregateRoot implements JsonSerializable
 {
     public function __construct(
         public readonly UserId       $id,
@@ -59,5 +61,10 @@ class User implements JsonSerializable
     public function isShopkeeper(): bool
     {
         return $this->type === UserType::SHOPKEEPER;
+    }
+
+    public function userWasPersisted(): void
+    {
+        $this->record(new UserWasPersisted($this->id, $this->name));
     }
 }

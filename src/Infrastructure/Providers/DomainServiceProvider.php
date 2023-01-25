@@ -4,6 +4,7 @@ namespace Picpay\Infrastructure\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Picpay\Application\Controllers\Transaction\Create\CreateTransactionCommandHandler;
+use Picpay\Application\Subscribers\Wallet\CreateWalletWhenUserPersisted;
 use Picpay\Domain\Repositories\UserRepository;
 use Picpay\Domain\Repositories\WalletRepository;
 use Picpay\Infrastructure\Repositories\Eloquent\UserEloquentRepository;
@@ -17,6 +18,15 @@ class DomainServiceProvider extends ServiceProvider
     {
         $this->interfaceBinding();
         $this->handlerTagging();
+        $this->eventTagging();
+    }
+
+    private function eventTagging()
+    {
+        $this->app->tag(
+            CreateWalletWhenUserPersisted::class,
+            'domain_event_subscriber'
+        );
     }
 
     private function handlerTagging()
