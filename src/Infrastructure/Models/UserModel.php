@@ -2,6 +2,7 @@
 
 namespace Picpay\Infrastructure\Models;
 
+use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -22,4 +23,9 @@ class UserModel extends Model
     protected $table = 'users';
 
     protected $fillable = ['id', 'name', 'email', 'cpf', 'password', 'type', 'created_at', 'updated_at'];
+
+    protected static function newFactory(): UserFactory
+    {
+        return UserFactory::new();
+    }
 }

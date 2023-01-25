@@ -17,7 +17,7 @@ class UserCreator
 {
     public function __construct(
         private readonly UserRepository         $repository,
-        private readonly EventBusInterface $eventBus,
+        private readonly EventBusInterface      $eventBus,
         private readonly CheckUserAlreadyExists $checkUserAlreadyExists
     )
     {
@@ -31,7 +31,7 @@ class UserCreator
         $this->checkUserAlreadyExists->checkUserExists($email, $cpf);
 
         $user = User::create($id, $name, $email, $cpf, $password, $type);
-//        $this->repository->create($user);
+        $this->repository->create($user);
         $user->userWasPersisted();
 
         $this->eventBus->publish(...$user->pullDomainEvents());
