@@ -11,15 +11,11 @@ use Picpay\User\Domain\ValueObject\UserId;
 use Picpay\User\Domain\ValueObject\UserName;
 use Picpay\User\Domain\ValueObject\UserPassword;
 
-class User implements JsonSerializable
+class Wallet implements JsonSerializable
 {
     public function __construct(
-        public readonly UserId       $id,
-        public readonly UserName     $name,
-        public readonly UserEmail    $email,
-        public readonly UserCpf      $cpf,
-        public readonly UserPassword $password,
-        public readonly UserType     $type,
+        public readonly User       $user,
+        public readonly UserName     $amount,
     )
     {
     }
