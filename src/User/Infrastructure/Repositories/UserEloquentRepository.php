@@ -14,11 +14,8 @@ use Picpay\User\Infrastructure\Models\UserModel;
 
 final class UserEloquentRepository implements UserRepository
 {
-    private UserModel $model;
-
-    public function __construct(UserModel $model)
+    public function __construct(private readonly UserModel $model)
     {
-        $this->model = $model;
     }
 
     public function getAll(): Users

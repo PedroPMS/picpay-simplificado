@@ -3,6 +3,7 @@
 namespace Picpay\User\Application\Controllers;
 
 use Picpay\Shared\Domain\UuidGeneratorInterface;
+use Picpay\User\Application\Controllers\Wallet\Create as CreateWallet;
 use Picpay\User\Application\Resources\UserResponse;
 use Picpay\User\Domain\Enums\UserType;
 use Picpay\User\Domain\Exceptions\UserAlreadyExistsException;
@@ -16,7 +17,11 @@ use Picpay\User\Domain\ValueObject\UserPassword;
 
 class Create
 {
-    public function __construct(private readonly UserCreator $userCreator, private readonly UuidGeneratorInterface $uuidGenerator)
+    public function __construct(
+        private readonly UserCreator            $userCreator,
+        private readonly CreateWallet           $createWallet,
+        private readonly UuidGeneratorInterface $uuidGenerator
+    )
     {
     }
 
@@ -34,6 +39,7 @@ class Create
         $userType = UserType::fromValue($type);
 
         $user = $this->userCreator->handle($userId, $userName, $userEmail, $userCpf, $userPassword, $userType);
+        $this->createWallet->createWallet($userId);
         return UserResponse::fromUser($user);
     }
 }

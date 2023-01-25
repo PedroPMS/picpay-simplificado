@@ -3,57 +3,40 @@
 namespace Picpay\User\Domain\Entities;
 
 use JsonSerializable;
-use Picpay\User\Domain\Enums\UserType;
-use Picpay\User\Domain\Exceptions\UserTypeException;
-use Picpay\User\Domain\ValueObject\UserCpf;
-use Picpay\User\Domain\ValueObject\UserEmail;
 use Picpay\User\Domain\ValueObject\UserId;
-use Picpay\User\Domain\ValueObject\UserName;
-use Picpay\User\Domain\ValueObject\UserPassword;
+use Picpay\User\Domain\ValueObject\WalletAmount;
+use Picpay\User\Domain\ValueObject\WalletId;
 
 class Wallet implements JsonSerializable
 {
     public function __construct(
-        public readonly User       $user,
-        public readonly UserName     $amount,
+        public readonly WalletId     $id,
+        public readonly WalletAmount $amount,
+        public readonly UserId       $userId
     )
     {
     }
 
-    /**
-     * @throws UserTypeException
-     */
-    public static function fromPrimitives(string $id, string $name, string $email, string $cpf, string $password, string $type): self
+    public static function fromPrimitives(string $id, int $amount, string $userId): self
     {
         return new self(
-            UserId::fromValue($id),
-            UserName::fromValue($name),
-            UserEmail::fromValue($email),
-            UserCpf::fromValue($cpf),
-            UserPassword::fromValue($password),
-            UserType::fromValue($type)
+            WalletId::fromValue($id),
+            WalletAmount::fromValue($amount),
+            UserId::fromValue($userId),
         );
     }
 
-    public static function create(UserId $id, UserName $name, UserEmail $email, UserCpf $cpf, UserPassword $password, UserType $type): self
+    public static function create(WalletId $id, WalletAmount $amount, UserId $userId): self
     {
-        return new self($id, $name, $email, $cpf, $password, $type);
+        return new self($id, $amount, $userId);
     }
 
     public function jsonSerialize(): array
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'email' => $this->email,
-            'cpf' => $this->cpf,
-            'password' => $this->password,
-            'type' => $this->type,
+            'amount' => $this->amount->value(),
+            'user_id' => $this->userId,
         ];
-    }
-
-    public function isShopkeeper(): bool
-    {
-        return $this->type === UserType::SHOPKEEPER;
     }
 }

@@ -9,7 +9,7 @@ class CreateTransactionCommand implements CommandInterface
     public function __construct(
         public readonly string $payerId,
         public readonly string $payeeId,
-        public readonly string $value,
+        public readonly int $value,
     )
     {
     }
