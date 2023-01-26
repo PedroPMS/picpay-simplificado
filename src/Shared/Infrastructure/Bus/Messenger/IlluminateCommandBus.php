@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Picpay\Shared\Infrastructure\Bus\Messenger;
 
-use App\Jobs\GenericJob;
+use App\Jobs\CommandJob;
 use Illuminate\Support\Facades\Queue;
 use Picpay\Shared\Domain\Bus\Command\CommandBusInterface;
 use Picpay\Shared\Domain\Bus\Command\CommandInterface;
@@ -22,6 +22,6 @@ final class IlluminateCommandBus implements CommandBusInterface
     public function dispatch(CommandInterface $command): void
     {
         $handler = $this->map[get_class($command)][0];
-        Queue::push(new GenericJob($command, $handler));
+        Queue::push(new CommandJob($command, $handler));
     }
 }

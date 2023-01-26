@@ -4,8 +4,6 @@ namespace Picpay\Infrastructure\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Picpay\Application\Controllers\Transaction\Create\CreateTransactionCommandHandler;
-use Picpay\Application\Controllers\Transaction\Create\TesteCommandHandler;
-use Picpay\Application\Controllers\Transaction\Create\TesteTransactionCommandHandler;
 use Picpay\Application\Subscribers\Wallet\CreateWalletWhenUserPersisted;
 use Picpay\Domain\Repositories\UserRepository;
 use Picpay\Domain\Repositories\WalletRepository;

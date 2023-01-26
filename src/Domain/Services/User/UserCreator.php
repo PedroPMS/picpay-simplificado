@@ -31,7 +31,7 @@ class UserCreator
         $this->checkUserAlreadyExists->checkUserExists($email, $cpf);
 
         $user = User::create($id, $name, $email, $cpf, $password, $type);
-//        $this->repository->create($user);
+        $this->repository->create($user);
         $user->userWasPersisted();
 
         $this->eventBus->publish(...$user->pullDomainEvents());

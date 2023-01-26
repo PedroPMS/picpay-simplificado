@@ -17,7 +17,7 @@ class WalletCreator
     public function createWallet(WalletId $id, WalletAmount $amount, UserId $userId): Wallet
     {
         $wallet = Wallet::create($id, $amount, $userId);
-//        $this->repository->create($wallet);
+        $this->repository->create($wallet);
 
         return $wallet;
     }
