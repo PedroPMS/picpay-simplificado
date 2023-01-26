@@ -12,11 +12,13 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
-        "symfony/messenger": "^6.2"
+        "symfony/messenger": "^6.2",
+        "symfony/redis-messenger": "^6.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
         "knuckleswtf/scribe": "^4.13",
+        "laravel/horizon": "^5.13",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",

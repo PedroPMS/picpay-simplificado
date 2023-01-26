@@ -15,6 +15,7 @@ class CreateTest extends TestCase
     {
         $user = User::factory()->make()->toArray();
         $response = $this->postJson('/users', $user);
+        dd($response->json());
         $userId = $response->json()['id'];
 
         $this->assertDatabaseHas('users', ['id' => $userId]);

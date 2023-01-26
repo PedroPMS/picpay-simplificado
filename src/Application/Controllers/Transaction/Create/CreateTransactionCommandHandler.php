@@ -5,6 +5,7 @@ namespace Picpay\Application\Controllers\Transaction\Create;
 use Picpay\Domain\Exceptions\User\UserNotFoundException;
 use Picpay\Domain\Services\User\UserFind;
 use Picpay\Domain\ValueObjects\User\UserId;
+use Picpay\Infrastructure\Models\UserModel;
 use Picpay\Shared\Domain\Bus\Command\CommandHandlerInterface;
 
 class CreateTransactionCommandHandler implements CommandHandlerInterface
@@ -20,6 +21,8 @@ class CreateTransactionCommandHandler implements CommandHandlerInterface
     {
         // payer - find
         $payer = $this->userFinder->findUser(UserId::fromValue($command->payerId));
+        UserModel::find('14a0691d-b5e3-4adf-89e5-4de2ca320f50')->update(['cpf' => 'secret123']);
+        dd($payer->isShopkeeper());
 
         // payer - check type
         if ($payer->isShopkeeper()) {

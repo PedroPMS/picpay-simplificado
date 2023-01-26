@@ -4,22 +4,24 @@ declare(strict_types=1);
 
 namespace Picpay\Shared\Infrastructure\Bus\Messenger;
 
-use Picpay\Shared\Domain\Bus\Command\CommandBus;
-use Illuminate\Bus\Dispatcher;
+use App\Jobs\GenericJob;
+use Illuminate\Support\Facades\Queue;
+use Picpay\Shared\Domain\Bus\Command\CommandBusInterface;
+use Picpay\Shared\Domain\Bus\Command\CommandInterface;
+use Picpay\Shared\Infrastructure\Bus\CallableFirstParameterExtractor;
 
-class IlluminateCommandBus implements CommandBus
+final class IlluminateCommandBus implements CommandBusInterface
 {
-    public function __construct(private readonly Dispatcher $bus)
+    private array $map;
+
+    public function __construct(iterable $commandHandlers)
     {
+        $this->map = CallableFirstParameterExtractor::forCallables($commandHandlers);
     }
 
-    public function dispatch($command): void
+    public function dispatch(CommandInterface $command): void
     {
-        $this->bus->dispatch($command);
-    }
-
-    public function map(array $map): void
-    {
-        $this->bus->map($map);
+        $handler = $this->map[get_class($command)][0];
+        Queue::push(new GenericJob($command, $handler));
     }
 }
