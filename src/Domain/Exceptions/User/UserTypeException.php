@@ -15,7 +15,6 @@ final class UserTypeException extends DomainException
         parent::__construct($message, $code, $previous);
     }
 
-
     public static function userTypeNotExists(): self
     {
         return new self(

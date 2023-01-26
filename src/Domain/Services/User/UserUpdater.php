@@ -15,11 +15,10 @@ use Picpay\Domain\ValueObjects\User\UserName;
 class UserUpdater
 {
     public function __construct(
-        private readonly UserRepository             $repository,
-        private readonly UserFind                   $userFind,
+        private readonly UserRepository $repository,
+        private readonly UserFind $userFind,
         private readonly CheckUserAlreadyExists $dataAlreadyExists
-    )
-    {
+    ) {
     }
 
     /**

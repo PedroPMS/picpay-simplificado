@@ -44,7 +44,7 @@ final class UserEloquentRepository implements UserRepository
         /** @var UserModel $userModel */
         $userModel = $this->model->newQuery()->find($id->value());
 
-        if (!$userModel) {
+        if (! $userModel) {
             return null;
         }
 
@@ -60,10 +60,10 @@ final class UserEloquentRepository implements UserRepository
         $userModel = $this->model
             ->newQuery()
             ->where('email', $email->value())
-            ->when($excludeId, fn($query) => $query->where('id', '!=', $excludeId->value()))
+            ->when($excludeId, fn ($query) => $query->where('id', '!=', $excludeId->value()))
             ->first();
 
-        if (!$userModel) {
+        if (! $userModel) {
             return null;
         }
 
@@ -79,10 +79,10 @@ final class UserEloquentRepository implements UserRepository
         $userModel = $this->model
             ->newQuery()
             ->where('cpf', $cpf->value())
-            ->when($excludeId, fn($query) => $query->where('id', '!=', $excludeId->value()))
+            ->when($excludeId, fn ($query) => $query->where('id', '!=', $excludeId->value()))
             ->first();
 
-        if (!$userModel) {
+        if (! $userModel) {
             return null;
         }
 

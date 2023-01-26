@@ -10,7 +10,6 @@ class CreateTransactionCommand implements CommandInterface
         public readonly string $payerId,
         public readonly string $payeeId,
         public readonly int $value,
-    )
-    {
+    ) {
     }
 }

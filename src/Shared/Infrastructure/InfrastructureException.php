@@ -8,5 +8,4 @@ use Exception;
 
 abstract class InfrastructureException extends Exception
 {
-
 }

@@ -9,7 +9,7 @@ use Picpay\Shared\Domain\ResponseInterface;
 final class UsersResponse implements ResponseInterface
 {
     /**
-     * @param array<UserResponse> $users
+     * @param  array<UserResponse>  $users
      */
     public function __construct(private readonly array $users)
     {

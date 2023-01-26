@@ -8,5 +8,4 @@ use Picpay\Shared\Domain\ValueObject\StringValueObject;
 
 final class UserCpf extends StringValueObject
 {
-
 }

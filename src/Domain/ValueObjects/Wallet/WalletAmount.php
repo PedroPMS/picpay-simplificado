@@ -8,5 +8,4 @@ use Picpay\Shared\Domain\ValueObject\MoneyValueObject;
 
 final class WalletAmount extends MoneyValueObject
 {
-
 }

@@ -32,7 +32,6 @@ class Update
         $userCpf = UserCpf::fromValue($cpf);
         $userType = UserType::fromValue($type);
 
-
         $user = $this->userUpdater->updateUser($userId, $userName, $userEmail, $userCpf, $userType);
 
         return UserResponse::fromUser($user);

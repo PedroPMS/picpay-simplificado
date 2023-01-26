@@ -15,10 +15,9 @@ class CommandJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public function __construct(
-        private readonly CommandInterface        $command,
+        private readonly CommandInterface $command,
         private readonly CommandHandlerInterface $handler
-    )
-    {
+    ) {
     }
 
     public function handle(): void

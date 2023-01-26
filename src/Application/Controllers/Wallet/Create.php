@@ -11,10 +11,9 @@ use Picpay\Shared\Domain\UuidGeneratorInterface;
 class Create
 {
     public function __construct(
-        private readonly WalletCreator          $walletCreator,
+        private readonly WalletCreator $walletCreator,
         private readonly UuidGeneratorInterface $uuidGenerator
-    )
-    {
+    ) {
     }
 
     public function createWallet(UserId $userId): void

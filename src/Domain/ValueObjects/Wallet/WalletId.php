@@ -8,5 +8,4 @@ use Picpay\Shared\Domain\ValueObject\UuidValueObject;
 
 final class WalletId extends UuidValueObject
 {
-
 }

@@ -39,6 +39,5 @@ class CreateTransactionCommandHandler implements CommandHandlerInterface
         // payee - update payee wallet
         // transaction - end transaction
         // transaction dispatch payment event
-
     }
 }

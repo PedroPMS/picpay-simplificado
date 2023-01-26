@@ -8,7 +8,9 @@ use Picpay\Shared\Domain\ValueObject\UuidValueObject;
 abstract class AbstractDomainEvent
 {
     private string $aggregateId;
+
     private string $eventId;
+
     private string $occurredOn;
 
     public function __construct(string $aggregateId, string $eventId = null, string $occurredOn = null)
@@ -20,7 +22,7 @@ abstract class AbstractDomainEvent
 
     abstract public static function fromPrimitives(
         string $aggregateId,
-        array  $body,
+        array $body,
         string $eventId,
         string $occurredOn
     ): self;

@@ -2,13 +2,15 @@
 
 namespace Picpay\Shared\Domain\Bus\Event;
 
-use Picpay\Shared\Domain\ValueObject\UuidValueObject;
 use DateTimeImmutable;
+use Picpay\Shared\Domain\ValueObject\UuidValueObject;
 
 abstract class DomainEvent
 {
     private string $aggregateId;
+
     private string $eventId;
+
     private string $occurredOn;
 
     public function __construct(string $aggregateId, string $eventId = null, string $occurredOn = null)
@@ -20,7 +22,7 @@ abstract class DomainEvent
 
     abstract public static function fromPrimitives(
         string $aggregateId,
-        array  $body,
+        array $body,
         string $eventId,
         string $occurredOn
     ): self;

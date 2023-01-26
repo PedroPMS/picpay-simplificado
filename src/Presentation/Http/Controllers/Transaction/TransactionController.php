@@ -26,5 +26,4 @@ class TransactionController extends Controller
 
         return response()->noContent();
     }
-
 }

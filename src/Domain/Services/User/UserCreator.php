@@ -16,11 +16,10 @@ use Picpay\Shared\Domain\Bus\Event\EventBusInterface;
 class UserCreator
 {
     public function __construct(
-        private readonly UserRepository         $repository,
-        private readonly EventBusInterface      $eventBus,
+        private readonly UserRepository $repository,
+        private readonly EventBusInterface $eventBus,
         private readonly CheckUserAlreadyExists $checkUserAlreadyExists
-    )
-    {
+    ) {
     }
 
     /**
@@ -35,6 +34,7 @@ class UserCreator
         $user->userWasPersisted();
 
         $this->eventBus->publish(...$user->pullDomainEvents());
+
         return $user;
     }
 }

@@ -19,7 +19,7 @@ class UserDeletor
     {
         $user = $this->repository->findById($id);
 
-        if (!$user) {
+        if (! $user) {
             throw new UserNotFoundException();
         }
 

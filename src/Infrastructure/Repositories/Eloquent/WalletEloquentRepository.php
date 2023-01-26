@@ -24,7 +24,7 @@ final class WalletEloquentRepository implements WalletRepository
         /** @var WalletModel $walletModel */
         $walletModel = $this->model->newQuery()->find($id->value());
 
-        if (!$walletModel) {
+        if (! $walletModel) {
             return null;
         }
 
@@ -39,7 +39,7 @@ final class WalletEloquentRepository implements WalletRepository
             ->where('user_id', $userId->value())
             ->first();
 
-        if (!$walletModel) {
+        if (! $walletModel) {
             return null;
         }
 

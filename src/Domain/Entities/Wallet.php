@@ -10,11 +10,10 @@ use Picpay\Domain\ValueObjects\Wallet\WalletId;
 class Wallet implements JsonSerializable
 {
     public function __construct(
-        public readonly WalletId     $id,
+        public readonly WalletId $id,
         public readonly WalletAmount $amount,
-        public readonly UserId       $userId
-    )
-    {
+        public readonly UserId $userId
+    ) {
     }
 
     public static function fromPrimitives(string $id, int $amount, string $userId): self

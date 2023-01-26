@@ -15,10 +15,9 @@ class EventJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public function __construct(
-        private readonly AbstractDomainEvent            $event,
+        private readonly AbstractDomainEvent $event,
         private readonly DomainEventSubscriberInterface $subscriber
-    )
-    {
+    ) {
     }
 
     public function handle(): void

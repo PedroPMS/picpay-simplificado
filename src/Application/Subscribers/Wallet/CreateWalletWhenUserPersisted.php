@@ -9,7 +9,7 @@ use Picpay\Shared\Domain\Bus\Event\DomainEventSubscriberInterface;
 
 class CreateWalletWhenUserPersisted implements DomainEventSubscriberInterface
 {
-    public function __construct(private readonly Create $createWallet,)
+    public function __construct(private readonly Create $createWallet)
     {
     }
 
@@ -22,7 +22,7 @@ class CreateWalletWhenUserPersisted implements DomainEventSubscriberInterface
     public static function subscribedTo(): array
     {
         return [
-            UserWasPersisted::class
+            UserWasPersisted::class,
         ];
     }
 }

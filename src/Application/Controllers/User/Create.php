@@ -17,10 +17,9 @@ use Picpay\Shared\Domain\UuidGeneratorInterface;
 class Create
 {
     public function __construct(
-        private readonly UserCreator            $userCreator,
+        private readonly UserCreator $userCreator,
         private readonly UuidGeneratorInterface $uuidGenerator
-    )
-    {
+    ) {
     }
 
     /**
@@ -37,6 +36,7 @@ class Create
         $userType = UserType::fromValue($type);
 
         $user = $this->userCreator->createUser($userId, $userName, $userEmail, $userCpf, $userPassword, $userType);
+
         return UserResponse::fromUser($user);
     }
 }

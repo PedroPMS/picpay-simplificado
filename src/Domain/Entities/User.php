@@ -16,14 +16,13 @@ use Picpay\Shared\Domain\Aggregate\AggregateRoot;
 class User extends AggregateRoot implements JsonSerializable
 {
     public function __construct(
-        public readonly UserId       $id,
-        public readonly UserName     $name,
-        public readonly UserEmail    $email,
-        public readonly UserCpf      $cpf,
+        public readonly UserId $id,
+        public readonly UserName $name,
+        public readonly UserEmail $email,
+        public readonly UserCpf $cpf,
         public readonly UserPassword $password,
-        public readonly UserType     $type,
-    )
-    {
+        public readonly UserType $type,
+    ) {
     }
 
     /**

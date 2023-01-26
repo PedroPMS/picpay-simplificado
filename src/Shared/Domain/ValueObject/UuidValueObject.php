@@ -32,7 +32,7 @@ class UuidValueObject implements JsonSerializable
 
     private function assertIsValidUuid(string $id): void
     {
-        if (!RamseyUuid::isValid($id)) {
+        if (! RamseyUuid::isValid($id)) {
             throw new InvalidArgumentException(sprintf('`<%s>` does not allow the value `<%s>`.', static::class, $id));
         }
     }
@@ -47,7 +47,8 @@ class UuidValueObject implements JsonSerializable
         return $this->value;
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return $this->value;
     }
 }
