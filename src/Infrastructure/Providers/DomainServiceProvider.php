@@ -4,9 +4,13 @@ namespace Picpay\Infrastructure\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Picpay\Application\Controllers\Transaction\Create\CreateTransactionCommandHandler;
+use Picpay\Application\Subscribers\Transaction\NotifyPayerWhenTransactionInvalidated;
+use Picpay\Application\Subscribers\Transaction\ValidateTransactionWhenTransactionCreated;
 use Picpay\Application\Subscribers\Wallet\CreateWalletWhenUserPersisted;
+use Picpay\Domain\Repositories\TransactionRepository;
 use Picpay\Domain\Repositories\UserRepository;
 use Picpay\Domain\Repositories\WalletRepository;
+use Picpay\Infrastructure\Repositories\Eloquent\TransactionEloquentRepository;
 use Picpay\Infrastructure\Repositories\Eloquent\UserEloquentRepository;
 use Picpay\Infrastructure\Repositories\Eloquent\WalletEloquentRepository;
 use Picpay\Shared\Domain\UuidGeneratorInterface;
@@ -27,6 +31,16 @@ class DomainServiceProvider extends ServiceProvider
             CreateWalletWhenUserPersisted::class,
             'domain_event_subscriber'
         );
+
+        $this->app->tag(
+            NotifyPayerWhenTransactionInvalidated::class,
+            'domain_event_subscriber'
+        );
+
+        $this->app->tag(
+            ValidateTransactionWhenTransactionCreated::class,
+            'domain_event_subscriber'
+        );
     }
 
     private function handlerTagging()
@@ -42,5 +56,6 @@ class DomainServiceProvider extends ServiceProvider
         $this->app->bind(UuidGeneratorInterface::class, RamseyUuidGenerator::class);
         $this->app->bind(UserRepository::class, UserEloquentRepository::class);
         $this->app->bind(WalletRepository::class, WalletEloquentRepository::class);
+        $this->app->bind(TransactionRepository::class, TransactionEloquentRepository::class);
     }
 }

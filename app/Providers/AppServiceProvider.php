@@ -7,6 +7,8 @@ use Picpay\Infrastructure\Providers\DomainServiceProvider;
 use Picpay\Presentation\Http\Routes\Router;
 use Picpay\Shared\Domain\Bus\Command\CommandBusInterface;
 use Picpay\Shared\Domain\Bus\Event\EventBusInterface;
+use Picpay\Shared\Domain\Bus\Event\GetEventBusInterface;
+use Picpay\Shared\Infrastructure\Bus\Messenger\GetEventBus;
 use Picpay\Shared\Infrastructure\Bus\Messenger\IlluminateCommandBus;
 use Picpay\Shared\Infrastructure\Bus\Messenger\IlluminateEventBus;
 
@@ -32,5 +34,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(EventBusInterface::class, function ($app) {
             return new IlluminateEventBus($app->tagged('domain_event_subscriber'));
         });
+
+        $this->app->singleton(GetEventBusInterface::class, GetEventBus::class);
     }
 }

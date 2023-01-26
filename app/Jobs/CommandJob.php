@@ -14,10 +14,16 @@ class CommandJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    private string $commandName;
+
+    private string $handlerName;
+
     public function __construct(
         private readonly CommandInterface $command,
         private readonly CommandHandlerInterface $handler
     ) {
+        $this->commandName = get_class($this->command);
+        $this->handlerName = get_class($this->handler);
     }
 
     public function handle(): void
