@@ -6,6 +6,7 @@ use App\Jobs\EventJob;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Queue;
+use Picpay\Infrastructure\Models\UserModel;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
@@ -15,7 +16,7 @@ class CreateTest extends TestCase
 
     public function testItCreateANewUserAndWallet()
     {
-        $user = User::factory()->make()->toArray();
+        $user = UserModel::factory()->make()->toArray();
         $response = $this->postJson('/users', $user);
         $userId = $response->json()['id'];
 

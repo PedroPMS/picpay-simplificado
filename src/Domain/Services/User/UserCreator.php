@@ -18,7 +18,7 @@ class UserCreator
     public function __construct(
         private readonly UserRepository $repository,
         private readonly EventBusInterface $eventBus,
-        private readonly CheckUserAlreadyExists $checkUserAlreadyExists
+        private readonly UserAlreadyExists $checkUserAlreadyExists
     ) {
     }
 

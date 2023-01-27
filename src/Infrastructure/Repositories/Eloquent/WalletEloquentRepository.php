@@ -31,7 +31,7 @@ final class WalletEloquentRepository implements WalletRepository
         return $this->toDomain($walletModel);
     }
 
-    public function findByUser(UserId $userId): ?Wallet
+    public function findByUserId(UserId $userId): ?Wallet
     {
         /** @var WalletModel $walletModel */
         $walletModel = $this->model

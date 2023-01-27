@@ -17,7 +17,7 @@ class UserUpdater
     public function __construct(
         private readonly UserRepository $repository,
         private readonly UserFind $userFind,
-        private readonly CheckUserAlreadyExists $dataAlreadyExists
+        private readonly UserAlreadyExists $checkUserAlreadyExists
     ) {
     }
 
@@ -28,7 +28,7 @@ class UserUpdater
     public function updateUser(UserId $id, UserName $name, UserEmail $email, UserCpf $cpf, UserType $type): User
     {
         $user = $this->userFind->findUser($id);
-        $this->dataAlreadyExists->checkUserExists($email, $cpf, $id);
+        $this->checkUserAlreadyExists->checkUserExists($email, $cpf, $id);
 
         $user = User::create($id, $name, $email, $cpf, $user->password, $type);
         $this->repository->update($user);

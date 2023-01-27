@@ -10,7 +10,7 @@ interface WalletRepository
 {
     public function findById(WalletId $id): ?Wallet;
 
-    public function findByUser(UserId $userId): ?Wallet;
+    public function findByUserId(UserId $userId): ?Wallet;
 
     public function create(Wallet $wallet): void;
 

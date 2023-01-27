@@ -8,7 +8,7 @@ use Picpay\Domain\ValueObjects\User\UserCpf;
 use Picpay\Domain\ValueObjects\User\UserEmail;
 use Picpay\Domain\ValueObjects\User\UserId;
 
-class CheckUserAlreadyExists
+class UserAlreadyExists
 {
     public function __construct(private readonly UserRepository $repository)
     {
