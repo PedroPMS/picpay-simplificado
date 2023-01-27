@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\User\Domain\Services;
+namespace Tests\Unit\User\Domain\Services\User;
 
 use Mockery as m;
 use Picpay\Domain\Entities\User;

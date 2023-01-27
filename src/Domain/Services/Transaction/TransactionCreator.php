@@ -8,13 +8,13 @@ use Picpay\Domain\Repositories\TransactionRepository;
 use Picpay\Domain\ValueObjects\Transaction\TransactionId;
 use Picpay\Domain\ValueObjects\Transaction\TransactionValue;
 use Picpay\Domain\ValueObjects\User\UserId;
-use Picpay\Shared\Domain\Bus\Event\EventBusInterface;
+use Picpay\Shared\Domain\Bus\Event\GetEventBusInterface;
 
 class TransactionCreator
 {
     public function __construct(
         private readonly TransactionRepository $repository,
-        private readonly EventBusInterface $eventBus,
+        private readonly GetEventBusInterface $eventBus
     ) {
     }
 
@@ -25,11 +25,11 @@ class TransactionCreator
         TransactionValue $value,
         TransactionStatus $status
     ): void {
-        $transaction = Transaction::create(TransactionId::fromValue('c30980a3-2d36-4553-b080-51fb736c59c9'), $payerId, $payeeId, $value, $status);
+        $transaction = Transaction::create($id, $payerId, $payeeId, $value, $status);
 
-//        $this->repository->create($transaction);
+        $this->repository->create($transaction);
         $transaction->transactionWasCreated();
 
-        $this->eventBus->publish(...$transaction->pullDomainEvents());
+        $this->eventBus->getEventBus()->publish(...$transaction->pullDomainEvents());
     }
 }

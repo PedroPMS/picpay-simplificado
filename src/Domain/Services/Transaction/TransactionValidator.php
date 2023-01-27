@@ -2,9 +2,12 @@
 
 namespace Picpay\Domain\Services\Transaction;
 
+use Picpay\Domain\Entities\Transaction;
+use Picpay\Domain\Enums\Transaction\TransactionStatus;
 use Picpay\Domain\Exceptions\Transaction\PayerDoesntHaveEnoughBalanceException;
 use Picpay\Domain\Exceptions\Transaction\ShopkeeperCantStartTransactionException;
 use Picpay\Domain\Exceptions\Transaction\TransactionNotFoundException;
+use Picpay\Domain\Exceptions\Transaction\TransactionUnautorizedException;
 use Picpay\Domain\Exceptions\User\UserNotFoundException;
 use Picpay\Domain\Exceptions\Wallet\WalletNotFoundException;
 use Picpay\Domain\Services\User\UserFind;
@@ -15,8 +18,10 @@ use Picpay\Shared\Domain\Bus\Event\GetEventBusInterface;
 class TransactionValidator
 {
     public function __construct(
-        private readonly TransactionFind $transactionFinder,
         private readonly UserFind $userFinder,
+        private readonly TransactionUpdater $transactionUpdater,
+        private readonly TransactionFind $transactionFinder,
+        private readonly TransactionAuthorizer $transactionAuthorizer,
         private readonly PayerHasEnoughBalanceForTransaction $hasEnoughBalanceForTransaction,
         private readonly GetEventBusInterface $eventBus
     ) {
@@ -38,11 +43,22 @@ class TransactionValidator
             }
 
             $this->hasEnoughBalanceForTransaction->checkPayerHasEnoughBalanceForTransaction($payer->id, $transaction->value);
-            // todo check in provider
-        } catch (PayerDoesntHaveEnoughBalanceException|ShopkeeperCantStartTransactionException $exception) {
+
+            if (! $this->transactionAuthorizer->isAutorized()) {
+                throw new TransactionUnautorizedException();
+            }
+
+            $this->updateValidatedTransaction($transaction);
+        } catch (PayerDoesntHaveEnoughBalanceException|ShopkeeperCantStartTransactionException|TransactionUnautorizedException $exception) {
             $transaction->transactionWasRejected($exception->getMessage());
         }
 
         $this->eventBus->getEventBus()->publish(...$transaction->pullDomainEvents());
+    }
+
+    private function updateValidatedTransaction(Transaction $transaction): void
+    {
+        $this->transactionUpdater->updateTransactionStatus($transaction->id, TransactionStatus::PENDING);
+        $transaction->transactionWasValidated();
     }
 }

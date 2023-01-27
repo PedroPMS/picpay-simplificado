@@ -3,6 +3,7 @@
 namespace Picpay\Infrastructure\Repositories\Eloquent;
 
 use Picpay\Domain\Entities\Transaction;
+use Picpay\Domain\Enums\Transaction\TransactionStatus;
 use Picpay\Domain\Exceptions\Transaction\TransactionStatusException;
 use Picpay\Domain\Repositories\TransactionRepository;
 use Picpay\Domain\ValueObjects\Transaction\TransactionId;
@@ -34,10 +35,10 @@ final class TransactionEloquentRepository implements TransactionRepository
         return $this->toDomain($transactionModel);
     }
 
-    public function update(Transaction $transaction): void
+    public function updateStatus(TransactionId $transactionId, TransactionStatus $newStatus): void
     {
-        $transactionModel = $this->model->newQuery()->find($transaction->id->value());
-        $transactionModel->update($transaction->jsonSerialize());
+        $transactionModel = $this->model->newQuery()->find($transactionId->value());
+        $transactionModel->update(['status' => $newStatus->value]);
     }
 
     /**

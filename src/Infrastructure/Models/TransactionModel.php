@@ -2,9 +2,12 @@
 
 namespace Picpay\Infrastructure\Models;
 
+use Database\Factories\TransactionFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -14,6 +17,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $payee_id
  * @property int $value
  * @property string $status
+ * @property UserModel $payer
+ * @property UserModel $payee
  */
 class TransactionModel extends Model
 {
@@ -22,4 +27,19 @@ class TransactionModel extends Model
     protected $table = 'transactions';
 
     protected $fillable = ['id', 'payer_id', 'payee_id', 'value', 'status', 'created_at', 'updated_at'];
+
+    public function payer(): BelongsTo
+    {
+        return $this->belongsTo(UserModel::class, 'payer_id', 'id');
+    }
+
+    public function payee(): HasOne
+    {
+        return $this->hasOne(UserModel::class, 'id', 'payee_id');
+    }
+
+    protected static function newFactory(): TransactionFactory
+    {
+        return TransactionFactory::new();
+    }
 }

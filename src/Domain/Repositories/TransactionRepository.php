@@ -3,6 +3,7 @@
 namespace Picpay\Domain\Repositories;
 
 use Picpay\Domain\Entities\Transaction;
+use Picpay\Domain\Enums\Transaction\TransactionStatus;
 use Picpay\Domain\ValueObjects\Transaction\TransactionId;
 
 interface TransactionRepository
@@ -11,5 +12,5 @@ interface TransactionRepository
 
     public function create(Transaction $transaction): void;
 
-    public function update(Transaction $transaction): void;
+    public function updateStatus(TransactionId $transactionId, TransactionStatus $newStatus): void;
 }

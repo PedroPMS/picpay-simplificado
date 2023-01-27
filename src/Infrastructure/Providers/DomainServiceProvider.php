@@ -2,6 +2,7 @@
 
 namespace Picpay\Infrastructure\Providers;
 
+use GuzzleHttp\Client;
 use Illuminate\Support\ServiceProvider;
 use Picpay\Application\Controllers\Transaction\Create\CreateTransactionCommandHandler;
 use Picpay\Application\Subscribers\Transaction\NotifyPayerWhenTransactionInvalidated;
@@ -10,6 +11,8 @@ use Picpay\Application\Subscribers\Wallet\CreateWalletWhenUserPersisted;
 use Picpay\Domain\Repositories\TransactionRepository;
 use Picpay\Domain\Repositories\UserRepository;
 use Picpay\Domain\Repositories\WalletRepository;
+use Picpay\Domain\Services\Transaction\TransactionAuthorizer;
+use Picpay\Infrastructure\Providers\Http\Transaction\TransactionAuthorizerClient;
 use Picpay\Infrastructure\Repositories\Eloquent\TransactionEloquentRepository;
 use Picpay\Infrastructure\Repositories\Eloquent\UserEloquentRepository;
 use Picpay\Infrastructure\Repositories\Eloquent\WalletEloquentRepository;
@@ -57,5 +60,11 @@ class DomainServiceProvider extends ServiceProvider
         $this->app->bind(UserRepository::class, UserEloquentRepository::class);
         $this->app->bind(WalletRepository::class, WalletEloquentRepository::class);
         $this->app->bind(TransactionRepository::class, TransactionEloquentRepository::class);
+
+        $this->app->bind(TransactionAuthorizer::class, function () {
+            return new TransactionAuthorizerClient(new Client([
+                'base_uri' => sprintf('https://run.mocky.io/%s/', TransactionAuthorizerClient::API_VERSION),
+            ]));
+        });
     }
 }
