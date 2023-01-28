@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\User\Domain\Services;
+namespace Tests\Unit\User\Domain\Services\User;
 
 use Mockery as m;
 use Picpay\Domain\Entities\User;
@@ -8,7 +8,7 @@ use Picpay\Domain\Events\User\UserWasPersisted;
 use Picpay\Domain\Exceptions\User\UserAlreadyExistsException;
 use Picpay\Domain\Exceptions\User\UserTypeException;
 use Picpay\Domain\Repositories\UserRepository;
-use Picpay\Domain\Services\User\CheckUserAlreadyExists;
+use Picpay\Domain\Services\User\UserAlreadyExists;
 use Picpay\Domain\Services\User\UserCreator;
 use Picpay\Infrastructure\Models\UserModel;
 use Picpay\Shared\Domain\Bus\Event\EventBusInterface;
@@ -42,7 +42,7 @@ class UserCreatorTest extends TestCase
 
         $repositoryStub = m::mock(UserRepository::class);
         $eventBusStub = m::mock(EventBusInterface::class);
-        $checkUserExistsStub = m::mock(CheckUserAlreadyExists::class);
+        $checkUserExistsStub = m::mock(UserAlreadyExists::class);
 
         // Assert
         $checkUserExistsStub->shouldReceive('checkUserExists')
@@ -92,7 +92,7 @@ class UserCreatorTest extends TestCase
 
         $repositoryStub = m::mock(UserRepository::class);
         $eventBusStub = m::mock(EventBusInterface::class);
-        $checkUserExistsStub = m::mock(CheckUserAlreadyExists::class);
+        $checkUserExistsStub = m::mock(UserAlreadyExists::class);
 
         // Assert
         $this->expectException(UserAlreadyExistsException::class);
@@ -140,7 +140,7 @@ class UserCreatorTest extends TestCase
 
         $repositoryStub = m::mock(UserRepository::class);
         $eventBusStub = m::mock(EventBusInterface::class);
-        $checkUserExistsStub = m::mock(CheckUserAlreadyExists::class);
+        $checkUserExistsStub = m::mock(UserAlreadyExists::class);
 
         // Assert
         $this->expectException(UserAlreadyExistsException::class);

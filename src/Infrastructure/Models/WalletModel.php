@@ -2,6 +2,7 @@
 
 namespace Picpay\Infrastructure\Models;
 
+use Database\Factories\WalletFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -19,4 +20,9 @@ class WalletModel extends Model
     protected $table = 'wallet';
 
     protected $fillable = ['id', 'amount', 'user_id', 'created_at', 'updated_at'];
+
+    protected static function newFactory(): WalletFactory
+    {
+        return WalletFactory::new();
+    }
 }
