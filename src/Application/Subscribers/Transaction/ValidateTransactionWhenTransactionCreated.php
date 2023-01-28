@@ -24,6 +24,7 @@ class ValidateTransactionWhenTransactionCreated implements DomainEventSubscriber
     public function __invoke(TransactionCreated $event): void
     {
         $id = TransactionId::fromValue($event->id);
+        dd($id);
         $this->validator->validateTransaction($id);
     }
 

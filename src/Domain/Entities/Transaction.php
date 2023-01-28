@@ -66,6 +66,6 @@ class Transaction extends AggregateRoot implements JsonSerializable
 
     public function transactionWasCreated(): void
     {
-        $this->record(new TransactionCreated($this->id, $this->payerId));
+        $this->record(new TransactionCreated($this->id, $this->jsonSerialize()));
     }
 }

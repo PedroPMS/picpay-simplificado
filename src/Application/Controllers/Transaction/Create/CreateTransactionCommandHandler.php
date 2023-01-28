@@ -8,13 +8,15 @@ use Picpay\Domain\ValueObjects\Transaction\TransactionId;
 use Picpay\Domain\ValueObjects\Transaction\TransactionValue;
 use Picpay\Domain\ValueObjects\User\UserId;
 use Picpay\Shared\Domain\Bus\Command\CommandHandlerInterface;
+use Picpay\Shared\Domain\Bus\Event\GetEventBusInterface;
 use Picpay\Shared\Domain\UuidGeneratorInterface;
 
 class CreateTransactionCommandHandler implements CommandHandlerInterface
 {
     public function __construct(
         private readonly UuidGeneratorInterface $uuidGenerator,
-        private readonly TransactionCreator $transactionCreator
+        private readonly TransactionCreator $transactionCreator,
+        private readonly GetEventBusInterface $eventBus,
     ) {
     }
 
@@ -26,7 +28,10 @@ class CreateTransactionCommandHandler implements CommandHandlerInterface
         $value = TransactionValue::fromValue($command->value);
         $status = TransactionStatus::CREATED;
 
-        $this->transactionCreator->createTransaction($id, $payerId, $payeeId, $value, $status);
+        $transaction = $this->transactionCreator->createTransaction($id, $payerId, $payeeId, $value, $status);
+        $transaction->transactionWasCreated();
+
+        $this->eventBus->getEventBus()->publish(...$transaction->pullDomainEvents());
 
         // payee - find
         // transaction - start transaction
