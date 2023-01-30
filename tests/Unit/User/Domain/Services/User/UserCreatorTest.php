@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\User\Domain\Services\User;
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Mockery as m;
 use Picpay\Domain\Entities\User;
 use Picpay\Domain\Events\User\UserWasPersisted;
@@ -16,6 +17,8 @@ use Tests\TestCase;
 
 class UserCreatorTest extends TestCase
 {
+    use DatabaseTransactions;
+
     public function tearDown(): void
     {
         parent::tearDown();

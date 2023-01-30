@@ -2,13 +2,12 @@
 
 namespace Tests\Unit\User\Domain\Services\Transaction;
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Mockery as m;
 use Picpay\Domain\Entities\Transaction;
 use Picpay\Domain\Entities\User;
 use Picpay\Domain\Enums\Transaction\TransactionStatus;
 use Picpay\Domain\Enums\User\UserType;
-use Picpay\Domain\Events\Transaction\TransactionInvalidated;
-use Picpay\Domain\Events\Transaction\TransactionValidated;
 use Picpay\Domain\Exceptions\Transaction\PayerDoesntHaveEnoughBalanceException;
 use Picpay\Domain\Exceptions\Transaction\TransactionNotFoundException;
 use Picpay\Domain\Exceptions\Transaction\TransactionStatusException;
@@ -26,12 +25,12 @@ use Picpay\Domain\ValueObjects\Transaction\TransactionValue;
 use Picpay\Domain\ValueObjects\User\UserId;
 use Picpay\Infrastructure\Models\TransactionModel;
 use Picpay\Infrastructure\Models\UserModel;
-use Picpay\Shared\Domain\Bus\Event\EventBusInterface;
-use Picpay\Shared\Domain\Bus\Event\GetEventBusInterface;
 use Tests\TestCase;
 
 class TransactionValidatorTest extends TestCase
 {
+    use DatabaseTransactions;
+
     public function tearDown(): void
     {
         parent::tearDown();
@@ -74,8 +73,6 @@ class TransactionValidatorTest extends TestCase
         $userFinderStub = m::mock(UserFind::class);
         $hasEnoughBalanceStub = m::mock(PayerHasEnoughBalanceForTransaction::class);
         $transactionAutorizerStub = m::mock(TransactionAuthorizer::class);
-        $newEventBusStub = m::mock(GetEventBusInterface::class);
-        $eventBusStub = m::mock(EventBusInterface::class);
 
         // Assert
         $transactionFinderStub->shouldReceive('findTransaction')
@@ -102,23 +99,13 @@ class TransactionValidatorTest extends TestCase
             ->with(m::type(TransactionId::class), TransactionStatus::PENDING)
             ->andReturn();
 
-        $newEventBusStub->shouldReceive('getEventBus')
-            ->once()
-            ->andReturn($eventBusStub);
-
-        $eventBusStub->shouldReceive('publish')
-            ->once()
-            ->with(m::type(TransactionValidated::class))
-            ->andReturn();
-
         // Act
         $validatorAction = new TransactionValidator(
             $userFinderStub,
             $transactionUpdaterStub,
             $transactionFinderStub,
             $transactionAutorizerStub,
-            $hasEnoughBalanceStub,
-            $newEventBusStub
+            $hasEnoughBalanceStub
         );
         $validatorAction->validateTransaction($transaction->id);
     }
@@ -159,8 +146,6 @@ class TransactionValidatorTest extends TestCase
         $userFinderStub = m::mock(UserFind::class);
         $transactionAutorizerDummy = m::mock(TransactionAuthorizer::class);
         $hasEnoughBalanceDummy = m::mock(PayerHasEnoughBalanceForTransaction::class);
-        $newEventBusStub = m::mock(GetEventBusInterface::class);
-        $eventBusStub = m::mock(EventBusInterface::class);
 
         // Assert
         $transactionFinderStub->shouldReceive('findTransaction')
@@ -173,23 +158,13 @@ class TransactionValidatorTest extends TestCase
             ->with(m::type(UserId::class))
             ->andReturn($user);
 
-        $newEventBusStub->shouldReceive('getEventBus')
-            ->once()
-            ->andReturn($eventBusStub);
-
-        $eventBusStub->shouldReceive('publish')
-            ->once()
-            ->with(m::type(TransactionInvalidated::class))
-            ->andReturn();
-
         // Act
         $validatorAction = new TransactionValidator(
             $userFinderStub,
             $transactionUpdaterDummy,
             $transactionFinderStub,
             $transactionAutorizerDummy,
-            $hasEnoughBalanceDummy,
-            $newEventBusStub
+            $hasEnoughBalanceDummy
         );
         $validatorAction->validateTransaction($transaction->id);
     }
@@ -230,8 +205,6 @@ class TransactionValidatorTest extends TestCase
         $userFinderStub = m::mock(UserFind::class);
         $hasEnoughBalanceStub = m::mock(PayerHasEnoughBalanceForTransaction::class);
         $transactionAutorizerDummy = m::mock(TransactionAuthorizer::class);
-        $newEventBusStub = m::mock(GetEventBusInterface::class);
-        $eventBusStub = m::mock(EventBusInterface::class);
 
         // Assert
         $transactionFinderStub->shouldReceive('findTransaction')
@@ -249,23 +222,13 @@ class TransactionValidatorTest extends TestCase
             ->with(m::type(UserId::class), m::type(TransactionValue::class))
             ->andThrows(PayerDoesntHaveEnoughBalanceException::payerDoesntHaveEnoughBalance());
 
-        $newEventBusStub->shouldReceive('getEventBus')
-            ->once()
-            ->andReturn($eventBusStub);
-
-        $eventBusStub->shouldReceive('publish')
-            ->once()
-            ->with(m::type(TransactionInvalidated::class))
-            ->andReturn();
-
         // Act
         $validatorAction = new TransactionValidator(
             $userFinderStub,
             $transactionUpdaterDummy,
             $transactionFinderStub,
             $transactionAutorizerDummy,
-            $hasEnoughBalanceStub,
-            $newEventBusStub
+            $hasEnoughBalanceStub
         );
         $validatorAction->validateTransaction($transaction->id);
     }
@@ -306,8 +269,6 @@ class TransactionValidatorTest extends TestCase
         $userFinderStub = m::mock(UserFind::class);
         $hasEnoughBalanceStub = m::mock(PayerHasEnoughBalanceForTransaction::class);
         $transactionAutorizerStub = m::mock(TransactionAuthorizer::class);
-        $newEventBusStub = m::mock(GetEventBusInterface::class);
-        $eventBusStub = m::mock(EventBusInterface::class);
 
         // Assert
         $transactionFinderStub->shouldReceive('findTransaction')
@@ -329,23 +290,13 @@ class TransactionValidatorTest extends TestCase
             ->once()
             ->andReturn(false);
 
-        $newEventBusStub->shouldReceive('getEventBus')
-            ->once()
-            ->andReturn($eventBusStub);
-
-        $eventBusStub->shouldReceive('publish')
-            ->once()
-            ->with(m::type(TransactionInvalidated::class))
-            ->andReturn();
-
         // Act
         $validatorAction = new TransactionValidator(
             $userFinderStub,
             $transactionUpdaterDummy,
             $transactionFinderStub,
             $transactionAutorizerStub,
-            $hasEnoughBalanceStub,
-            $newEventBusStub
+            $hasEnoughBalanceStub
         );
         $validatorAction->validateTransaction($transaction->id);
     }

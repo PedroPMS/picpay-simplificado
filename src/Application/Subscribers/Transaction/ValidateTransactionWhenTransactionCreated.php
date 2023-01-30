@@ -2,30 +2,22 @@
 
 namespace Picpay\Application\Subscribers\Transaction;
 
+use Picpay\Application\Controllers\Transaction\Validate\ValidateTransactionCommand;
 use Picpay\Domain\Events\Transaction\TransactionCreated;
-use Picpay\Domain\Exceptions\Transaction\TransactionNotFoundException;
-use Picpay\Domain\Exceptions\User\UserNotFoundException;
-use Picpay\Domain\Exceptions\Wallet\WalletNotFoundException;
-use Picpay\Domain\Services\Transaction\TransactionValidator;
-use Picpay\Domain\ValueObjects\Transaction\TransactionId;
+use Picpay\Shared\Domain\Bus\Command\CommandBusInterface;
 use Picpay\Shared\Domain\Bus\Event\DomainEventSubscriberInterface;
 
 class ValidateTransactionWhenTransactionCreated implements DomainEventSubscriberInterface
 {
-    public function __construct(private readonly TransactionValidator $validator)
+    public function __construct(private readonly CommandBusInterface $commandBus)
     {
     }
 
-    /**
-     * @throws UserNotFoundException
-     * @throws WalletNotFoundException
-     * @throws TransactionNotFoundException
-     */
     public function __invoke(TransactionCreated $event): void
     {
-        $id = TransactionId::fromValue($event->id);
-        dd($id);
-        $this->validator->validateTransaction($id);
+        $command = new ValidateTransactionCommand($event->id);
+
+        $this->commandBus->dispatch($command);
     }
 
     public static function subscribedTo(): array

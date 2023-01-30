@@ -13,7 +13,6 @@ use Picpay\Domain\Exceptions\Wallet\WalletNotFoundException;
 use Picpay\Domain\Services\User\UserFind;
 use Picpay\Domain\ValueObjects\Transaction\TransactionId;
 use Picpay\Domain\ValueObjects\User\UserId;
-use Picpay\Shared\Domain\Bus\Event\GetEventBusInterface;
 
 class TransactionValidator
 {
@@ -22,8 +21,7 @@ class TransactionValidator
         private readonly TransactionUpdater $transactionUpdater,
         private readonly TransactionFind $transactionFinder,
         private readonly TransactionAuthorizer $transactionAuthorizer,
-        private readonly PayerHasEnoughBalanceForTransaction $hasEnoughBalanceForTransaction,
-        private readonly GetEventBusInterface $eventBus
+        private readonly PayerHasEnoughBalanceForTransaction $hasEnoughBalanceForTransaction
     ) {
     }
 
@@ -32,7 +30,7 @@ class TransactionValidator
      * @throws WalletNotFoundException
      * @throws TransactionNotFoundException
      */
-    public function validateTransaction(TransactionId $id): void
+    public function validateTransaction(TransactionId $id): Transaction
     {
         $transaction = $this->transactionFinder->findTransaction($id);
         $payer = $this->userFinder->findUser(UserId::fromValue($transaction->payerId));
@@ -53,7 +51,7 @@ class TransactionValidator
             $transaction->transactionWasRejected($exception->getMessage());
         }
 
-        $this->eventBus->getEventBus()->publish(...$transaction->pullDomainEvents());
+        return $transaction;
     }
 
     private function updateValidatedTransaction(Transaction $transaction): void

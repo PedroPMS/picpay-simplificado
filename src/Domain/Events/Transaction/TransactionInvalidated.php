@@ -8,11 +8,12 @@ final class TransactionInvalidated extends AbstractDomainEvent
 {
     public function __construct(
         public readonly string $id,
+        public readonly array $transactionBody,
         public readonly string $message,
         string $eventId = null,
         string $occurredOn = null
     ) {
-        parent::__construct($id, $eventId, $occurredOn);
+        parent::__construct($id, $transactionBody, $eventId, $occurredOn);
     }
 
     public static function fromPrimitives(
@@ -33,6 +34,7 @@ final class TransactionInvalidated extends AbstractDomainEvent
     {
         return [
             'id' => $this->id,
+            'transaction_body' => $this,
             'message' => $this->message,
         ];
     }
