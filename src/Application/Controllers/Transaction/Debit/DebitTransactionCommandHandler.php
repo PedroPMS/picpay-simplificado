@@ -13,7 +13,7 @@ use Picpay\Shared\Domain\Bus\Event\GetEventBusInterface;
 class DebitTransactionCommandHandler implements CommandHandlerInterface
 {
     public function __construct(
-        private readonly TransactionDebit $validator,
+        private readonly TransactionDebit $transactionDebiter,
         private readonly GetEventBusInterface $eventBus,
     ) {
     }
@@ -26,7 +26,7 @@ class DebitTransactionCommandHandler implements CommandHandlerInterface
     public function __invoke(DebitTransactionCommand $command): void
     {
         $id = TransactionId::fromValue($command->transactionId);
-        $transaction = $this->validator->debitTransaction($id);
+        $transaction = $this->transactionDebiter->debitTransaction($id);
 
         $this->eventBus->getEventBus()->publish(...$transaction->pullDomainEvents());
     }
