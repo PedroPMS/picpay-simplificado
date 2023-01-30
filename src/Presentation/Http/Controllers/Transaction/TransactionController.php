@@ -14,6 +14,15 @@ class TransactionController extends Controller
     {
     }
 
+    /**
+     * Create transaction
+     *
+     * Create transaction
+     *
+     * @response 204
+     *
+     * @group Transaction
+     */
     public function store(CreateTransactionRequest $request): Response
     {
         $command = new CreateTransactionCommand(
