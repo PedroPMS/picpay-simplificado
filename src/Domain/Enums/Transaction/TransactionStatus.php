@@ -7,7 +7,7 @@ use Picpay\Domain\Exceptions\Transaction\TransactionStatusException;
 enum TransactionStatus: string
 {
     case CREATED = 'created';
-    case PENDING = 'pending';
+    case DEBITED = 'debited';
     case SUCCEEDED = 'succeeded';
     case REJECTED = 'rejected';
 
@@ -18,7 +18,7 @@ enum TransactionStatus: string
     {
         return match ($value) {
             self::CREATED->value => self::CREATED,
-            self::PENDING->value => self::PENDING,
+            self::DEBITED->value => self::DEBITED,
             self::SUCCEEDED->value => self::SUCCEEDED,
             self::REJECTED->value => self::REJECTED,
             default => throw TransactionStatusException::transactionStatusNotExists(),

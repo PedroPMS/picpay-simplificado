@@ -8,18 +8,14 @@ use Picpay\Domain\Services\Transaction\TransactionAuthorizer;
 
 class TransactionAuthorizerClient implements TransactionAuthorizer
 {
-    public const API_VERSION = 'v3';
-
-    public function __construct(private readonly Client $client)
-    {
-    }
-
     /**
      * @throws GuzzleException
      */
     private function send(string $url)
     {
-        $response = $this->client->get($url);
+        $client = new Client(['base_uri' => config('services.transaction_autorizer.base_url')]);
+
+        $response = $client->get($url);
 
         return json_decode($response->getBody()->getContents(), true);
     }

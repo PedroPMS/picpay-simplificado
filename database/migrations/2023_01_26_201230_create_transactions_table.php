@@ -22,7 +22,7 @@ return new class extends Migration
                 ->references('id')
                 ->on('users');
             $table->integer('value');
-            $table->enum('status', ['created', 'pending', 'succeeded', 'rejected']);
+            $table->enum('status', ['created', 'debited', 'succeeded', 'rejected']);
             $table->timestamps();
             $table->softDeletes();
         });

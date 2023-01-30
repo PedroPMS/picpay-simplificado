@@ -5,8 +5,8 @@ namespace Picpay\Domain\Entities;
 use JsonSerializable;
 use Picpay\Domain\Enums\Transaction\TransactionStatus;
 use Picpay\Domain\Events\Transaction\TransactionCreated;
-use Picpay\Domain\Events\Transaction\TransactionInvalidated;
-use Picpay\Domain\Events\Transaction\TransactionValidated;
+use Picpay\Domain\Events\Transaction\TransactionDebited;
+use Picpay\Domain\Events\Transaction\TransactionRejected;
 use Picpay\Domain\Exceptions\Transaction\TransactionStatusException;
 use Picpay\Domain\ValueObjects\Transaction\TransactionId;
 use Picpay\Domain\ValueObjects\Transaction\TransactionValue;
@@ -54,14 +54,14 @@ class Transaction extends AggregateRoot implements JsonSerializable
         ];
     }
 
-    public function transactionWasValidated(): void
+    public function transactionWasDebited(): void
     {
-        $this->record(new TransactionValidated($this->id, $this->jsonSerialize()));
+        $this->record(new TransactionDebited($this->id, $this->jsonSerialize()));
     }
 
     public function transactionWasRejected(string $message): void
     {
-        $this->record(new TransactionInvalidated($this->id, $this->jsonSerialize(), $message));
+        $this->record(new TransactionRejected($this->id, $this->jsonSerialize(), $message));
     }
 
     public function transactionWasCreated(): void

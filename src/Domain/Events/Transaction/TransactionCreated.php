@@ -8,11 +8,11 @@ final class TransactionCreated extends AbstractDomainEvent
 {
     public function __construct(
         public readonly string $id,
-        public readonly array $transactionBody,
+        public readonly array $aggregateBody,
         string $eventId = null,
         string $occurredOn = null
     ) {
-        parent::__construct($id, $transactionBody, $eventId, $occurredOn);
+        parent::__construct($id, $aggregateBody, $eventId, $occurredOn);
     }
 
     public static function fromPrimitives(
@@ -33,7 +33,7 @@ final class TransactionCreated extends AbstractDomainEvent
     {
         return [
             'id' => $this->id,
-            'transaction_body' => $this,
+            'aggregateBody' => $this->aggregateBody,
         ];
     }
 }

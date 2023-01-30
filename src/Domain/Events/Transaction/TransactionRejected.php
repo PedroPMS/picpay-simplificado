@@ -4,16 +4,16 @@ namespace Picpay\Domain\Events\Transaction;
 
 use Picpay\Shared\Domain\Bus\Event\AbstractDomainEvent;
 
-final class TransactionInvalidated extends AbstractDomainEvent
+final class TransactionRejected extends AbstractDomainEvent
 {
     public function __construct(
         public readonly string $id,
-        public readonly array $transactionBody,
+        public readonly array $aggregateBody,
         public readonly string $message,
         string $eventId = null,
         string $occurredOn = null
     ) {
-        parent::__construct($id, $transactionBody, $eventId, $occurredOn);
+        parent::__construct($id, $aggregateBody, $eventId, $occurredOn);
     }
 
     public static function fromPrimitives(
@@ -34,7 +34,7 @@ final class TransactionInvalidated extends AbstractDomainEvent
     {
         return [
             'id' => $this->id,
-            'transaction_body' => $this,
+            'aggregateBody' => $this->aggregateBody,
             'message' => $this->message,
         ];
     }

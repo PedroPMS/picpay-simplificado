@@ -1,10 +1,10 @@
 <?php
 
-namespace Picpay\Application\Controllers\Transaction\Validate;
+namespace Picpay\Application\Controllers\Transaction\Debit;
 
 use Picpay\Shared\Domain\Bus\Command\CommandInterface;
 
-class ValidateTransactionCommand implements CommandInterface
+class DebitTransactionCommand implements CommandInterface
 {
     public function __construct(public readonly string $transactionId)
     {

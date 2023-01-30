@@ -4,15 +4,15 @@ namespace Picpay\Domain\Events\Transaction;
 
 use Picpay\Shared\Domain\Bus\Event\AbstractDomainEvent;
 
-final class TransactionValidated extends AbstractDomainEvent
+final class TransactionDebited extends AbstractDomainEvent
 {
     public function __construct(
         public readonly string $id,
-        public readonly array $transactionBody,
+        public readonly array $aggregateBody,
         string $eventId = null,
         string $occurredOn = null
     ) {
-        parent::__construct($id, $transactionBody, $eventId, $occurredOn);
+        parent::__construct($id, $aggregateBody, $eventId, $occurredOn);
     }
 
     public static function fromPrimitives(
@@ -26,14 +26,14 @@ final class TransactionValidated extends AbstractDomainEvent
 
     public static function eventName(): string
     {
-        return 'transaction.validated';
+        return 'transaction.debited';
     }
 
     public function toPrimitives(): array
     {
         return [
             'id' => $this->id,
-            'transaction_body' => $this,
+            'aggregateBody' => $this->aggregateBody,
         ];
     }
 }

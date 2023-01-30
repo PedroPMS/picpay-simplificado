@@ -16,9 +16,9 @@ use Picpay\Domain\Exceptions\User\UserTypeException;
 use Picpay\Domain\Exceptions\Wallet\WalletNotFoundException;
 use Picpay\Domain\Services\Transaction\PayerHasEnoughBalanceForTransaction;
 use Picpay\Domain\Services\Transaction\TransactionAuthorizer;
+use Picpay\Domain\Services\Transaction\TransactionDebit;
 use Picpay\Domain\Services\Transaction\TransactionFind;
 use Picpay\Domain\Services\Transaction\TransactionUpdater;
-use Picpay\Domain\Services\Transaction\TransactionValidator;
 use Picpay\Domain\Services\User\UserFind;
 use Picpay\Domain\ValueObjects\Transaction\TransactionId;
 use Picpay\Domain\ValueObjects\Transaction\TransactionValue;
@@ -96,11 +96,11 @@ class TransactionValidatorTest extends TestCase
 
         $transactionUpdaterStub->shouldReceive('updateTransactionStatus')
             ->once()
-            ->with(m::type(TransactionId::class), TransactionStatus::PENDING)
+            ->with(m::type(TransactionId::class), TransactionStatus::DEBITED)
             ->andReturn();
 
         // Act
-        $validatorAction = new TransactionValidator(
+        $validatorAction = new TransactionDebit(
             $userFinderStub,
             $transactionUpdaterStub,
             $transactionFinderStub,
@@ -159,7 +159,7 @@ class TransactionValidatorTest extends TestCase
             ->andReturn($user);
 
         // Act
-        $validatorAction = new TransactionValidator(
+        $validatorAction = new TransactionDebit(
             $userFinderStub,
             $transactionUpdaterDummy,
             $transactionFinderStub,
@@ -223,7 +223,7 @@ class TransactionValidatorTest extends TestCase
             ->andThrows(PayerDoesntHaveEnoughBalanceException::payerDoesntHaveEnoughBalance());
 
         // Act
-        $validatorAction = new TransactionValidator(
+        $validatorAction = new TransactionDebit(
             $userFinderStub,
             $transactionUpdaterDummy,
             $transactionFinderStub,
@@ -291,7 +291,7 @@ class TransactionValidatorTest extends TestCase
             ->andReturn(false);
 
         // Act
-        $validatorAction = new TransactionValidator(
+        $validatorAction = new TransactionDebit(
             $userFinderStub,
             $transactionUpdaterDummy,
             $transactionFinderStub,
