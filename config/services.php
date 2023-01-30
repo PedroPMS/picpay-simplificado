@@ -32,6 +32,7 @@ return [
     ],
 
     'transaction_autorizer' => [
+        'base_url' => env('TRANSACTION_AUTORIZER_BASE_URL', 'https://run.mocky.io/v3/'),
         'autorizer_url' => env('TRANSACTION_AUTORIZER_URL', '8fafdd68-a090-496f-8c9a-3442cf30dae6'),
         'autorized_message' => env('TRANSACTION_AUTORIZED_MESSAGE', 'Autorizado'),
     ],

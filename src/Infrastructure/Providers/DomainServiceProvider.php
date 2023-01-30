@@ -2,12 +2,12 @@
 
 namespace Picpay\Infrastructure\Providers;
 
-use GuzzleHttp\Client;
 use Illuminate\Support\ServiceProvider;
 use Picpay\Application\Controllers\Transaction\Create\CreateTransactionCommandHandler;
-use Picpay\Application\Controllers\Transaction\Validate\ValidateTransactionCommandHandler;
+use Picpay\Application\Controllers\Transaction\Debit\DebitTransactionCommandHandler;
+use Picpay\Application\Subscribers\Transaction\CreditTransactionWhenTransactionDebited;
+use Picpay\Application\Subscribers\Transaction\DebitTransactionWhenTransactionCreated;
 use Picpay\Application\Subscribers\Transaction\NotifyPayerWhenTransactionInvalidated;
-use Picpay\Application\Subscribers\Transaction\ValidateTransactionWhenTransactionCreated;
 use Picpay\Application\Subscribers\Wallet\CreateWalletWhenUserPersisted;
 use Picpay\Domain\Repositories\TransactionRepository;
 use Picpay\Domain\Repositories\UserRepository;
@@ -42,7 +42,12 @@ class DomainServiceProvider extends ServiceProvider
         );
 
         $this->app->tag(
-            ValidateTransactionWhenTransactionCreated::class,
+            DebitTransactionWhenTransactionCreated::class,
+            'domain_event_subscriber'
+        );
+
+        $this->app->tag(
+            CreditTransactionWhenTransactionDebited::class,
             'domain_event_subscriber'
         );
     }
@@ -55,7 +60,7 @@ class DomainServiceProvider extends ServiceProvider
         );
 
         $this->app->tag(
-            ValidateTransactionCommandHandler::class,
+            DebitTransactionCommandHandler::class,
             'command_handler'
         );
     }
@@ -67,10 +72,6 @@ class DomainServiceProvider extends ServiceProvider
         $this->app->bind(WalletRepository::class, WalletEloquentRepository::class);
         $this->app->bind(TransactionRepository::class, TransactionEloquentRepository::class);
 
-        $this->app->bind(TransactionAuthorizer::class, function () {
-            return new TransactionAuthorizerClient(new Client([
-                'base_uri' => sprintf('https://run.mocky.io/%s/', TransactionAuthorizerClient::API_VERSION),
-            ]));
-        });
+        $this->app->bind(TransactionAuthorizer::class, TransactionAuthorizerClient::class);
     }
 }

@@ -8,10 +8,14 @@ use Picpay\Presentation\Http\Routes\Router;
 use Picpay\Shared\Domain\Bus\Command\CommandBusInterface;
 use Picpay\Shared\Domain\Bus\Event\EventBusInterface;
 use Picpay\Shared\Domain\Bus\Event\EventStorageInterface;
+use Picpay\Shared\Domain\Bus\Event\GetCommandBusInterface;
 use Picpay\Shared\Domain\Bus\Event\GetEventBusInterface;
+use Picpay\Shared\Domain\DbTransactionInterface;
+use Picpay\Shared\Infrastructure\Bus\Messenger\GetCommandBus;
 use Picpay\Shared\Infrastructure\Bus\Messenger\GetEventBus;
 use Picpay\Shared\Infrastructure\Bus\Messenger\IlluminateCommandBus;
 use Picpay\Shared\Infrastructure\Bus\Messenger\IlluminateEventBus;
+use Picpay\Shared\Infrastructure\EloquentDbTransaction;
 use Picpay\Shared\Infrastructure\Repositories\Eloquent\EventStorageEloquentRepository;
 
 class AppServiceProvider extends ServiceProvider
@@ -40,5 +44,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(GetEventBusInterface::class, GetEventBus::class);
+        $this->app->singleton(GetCommandBusInterface::class, GetCommandBus::class);
+        $this->app->singleton(DbTransactionInterface::class, EloquentDbTransaction::class);
     }
 }
