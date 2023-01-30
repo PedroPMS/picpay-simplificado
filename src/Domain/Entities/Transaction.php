@@ -56,16 +56,16 @@ class Transaction extends AggregateRoot implements JsonSerializable
 
     public function transactionWasValidated(): void
     {
-        $this->record(new TransactionValidated($this->id, $this->status->value));
+        $this->record(new TransactionValidated($this->id, $this->jsonSerialize()));
     }
 
     public function transactionWasRejected(string $message): void
     {
-        $this->record(new TransactionInvalidated($this->id, $message));
+        $this->record(new TransactionInvalidated($this->id, $this->jsonSerialize(), $message));
     }
 
     public function transactionWasCreated(): void
     {
-        $this->record(new TransactionCreated($this->id, $this->payerId));
+        $this->record(new TransactionCreated($this->id, $this->jsonSerialize()));
     }
 }

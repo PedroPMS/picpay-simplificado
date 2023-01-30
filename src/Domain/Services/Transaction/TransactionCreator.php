@@ -8,14 +8,11 @@ use Picpay\Domain\Repositories\TransactionRepository;
 use Picpay\Domain\ValueObjects\Transaction\TransactionId;
 use Picpay\Domain\ValueObjects\Transaction\TransactionValue;
 use Picpay\Domain\ValueObjects\User\UserId;
-use Picpay\Shared\Domain\Bus\Event\GetEventBusInterface;
 
 class TransactionCreator
 {
-    public function __construct(
-        private readonly TransactionRepository $repository,
-        private readonly GetEventBusInterface $eventBus
-    ) {
+    public function __construct(private readonly TransactionRepository $repository)
+    {
     }
 
     public function createTransaction(
@@ -24,12 +21,11 @@ class TransactionCreator
         UserId $payeeId,
         TransactionValue $value,
         TransactionStatus $status
-    ): void {
+    ): Transaction {
         $transaction = Transaction::create($id, $payerId, $payeeId, $value, $status);
 
         $this->repository->create($transaction);
-        $transaction->transactionWasCreated();
 
-        $this->eventBus->getEventBus()->publish(...$transaction->pullDomainEvents());
+        return $transaction;
     }
 }

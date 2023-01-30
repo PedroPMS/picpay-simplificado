@@ -7,10 +7,12 @@ use Picpay\Infrastructure\Providers\DomainServiceProvider;
 use Picpay\Presentation\Http\Routes\Router;
 use Picpay\Shared\Domain\Bus\Command\CommandBusInterface;
 use Picpay\Shared\Domain\Bus\Event\EventBusInterface;
+use Picpay\Shared\Domain\Bus\Event\EventStorageInterface;
 use Picpay\Shared\Domain\Bus\Event\GetEventBusInterface;
 use Picpay\Shared\Infrastructure\Bus\Messenger\GetEventBus;
 use Picpay\Shared\Infrastructure\Bus\Messenger\IlluminateCommandBus;
 use Picpay\Shared\Infrastructure\Bus\Messenger\IlluminateEventBus;
+use Picpay\Shared\Infrastructure\Repositories\Eloquent\EventStorageEloquentRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,6 +29,8 @@ class AppServiceProvider extends ServiceProvider
 
     private function busProviders(): void
     {
+        $this->app->bind(EventStorageInterface::class, EventStorageEloquentRepository::class);
+
         $this->app->singleton(CommandBusInterface::class, function ($app) {
             return new IlluminateCommandBus($app->tagged('command_handler'));
         });

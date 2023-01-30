@@ -8,11 +8,11 @@ final class UserWasPersisted extends AbstractDomainEvent
 {
     public function __construct(
         public readonly string $id,
-        public readonly string $name,
+        public readonly array $userBody,
         string $eventId = null,
         string $occurredOn = null
     ) {
-        parent::__construct($id, $eventId, $occurredOn);
+        parent::__construct($id, $userBody, $eventId, $occurredOn);
     }
 
     public static function fromPrimitives(
@@ -21,7 +21,7 @@ final class UserWasPersisted extends AbstractDomainEvent
         string $eventId,
         string $occurredOn
     ): AbstractDomainEvent {
-        return new self($aggregateId, $body['name'], $eventId, $occurredOn);
+        return new self($aggregateId, $body, $eventId, $occurredOn);
     }
 
     public static function eventName(): string
@@ -33,7 +33,7 @@ final class UserWasPersisted extends AbstractDomainEvent
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
+            'user_body' => $this,
         ];
     }
 }

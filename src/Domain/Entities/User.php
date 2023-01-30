@@ -64,6 +64,6 @@ class User extends AggregateRoot implements JsonSerializable
 
     public function userWasPersisted(): void
     {
-        $this->record(new UserWasPersisted($this->id, $this->name));
+        $this->record(new UserWasPersisted($this->id, $this->jsonSerialize()));
     }
 }

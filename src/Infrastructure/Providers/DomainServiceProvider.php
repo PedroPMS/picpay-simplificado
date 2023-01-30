@@ -5,6 +5,7 @@ namespace Picpay\Infrastructure\Providers;
 use GuzzleHttp\Client;
 use Illuminate\Support\ServiceProvider;
 use Picpay\Application\Controllers\Transaction\Create\CreateTransactionCommandHandler;
+use Picpay\Application\Controllers\Transaction\Validate\ValidateTransactionCommandHandler;
 use Picpay\Application\Subscribers\Transaction\NotifyPayerWhenTransactionInvalidated;
 use Picpay\Application\Subscribers\Transaction\ValidateTransactionWhenTransactionCreated;
 use Picpay\Application\Subscribers\Wallet\CreateWalletWhenUserPersisted;
@@ -50,6 +51,11 @@ class DomainServiceProvider extends ServiceProvider
     {
         $this->app->tag(
             CreateTransactionCommandHandler::class,
+            'command_handler'
+        );
+
+        $this->app->tag(
+            ValidateTransactionCommandHandler::class,
             'command_handler'
         );
     }

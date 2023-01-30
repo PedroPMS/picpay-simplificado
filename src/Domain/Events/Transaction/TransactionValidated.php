@@ -8,11 +8,11 @@ final class TransactionValidated extends AbstractDomainEvent
 {
     public function __construct(
         public readonly string $id,
-        public readonly string $status,
+        public readonly array $transactionBody,
         string $eventId = null,
         string $occurredOn = null
     ) {
-        parent::__construct($id, $eventId, $occurredOn);
+        parent::__construct($id, $transactionBody, $eventId, $occurredOn);
     }
 
     public static function fromPrimitives(
@@ -21,7 +21,7 @@ final class TransactionValidated extends AbstractDomainEvent
         string $eventId,
         string $occurredOn
     ): AbstractDomainEvent {
-        return new self($aggregateId, $body['status'], $eventId, $occurredOn);
+        return new self($aggregateId, $body, $eventId, $occurredOn);
     }
 
     public static function eventName(): string
@@ -33,7 +33,7 @@ final class TransactionValidated extends AbstractDomainEvent
     {
         return [
             'id' => $this->id,
-            'status' => $this->status,
+            'transaction_body' => $this,
         ];
     }
 }
