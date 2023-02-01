@@ -39,7 +39,7 @@ tomar ações para cada tipo de status.
 
 A transação é registrada com o status de `created`, após isso ela vai para validação. Se for aprovada, ela continua o fluxo, caso o contrário ela vai para o fluxo de transações rejeitadas.
 
-![image](https://user-images.githubusercontent.com/48099126/216184742-20434d9a-875b-46a8-9a1b-3b3742b3286d.png)
+![image](https://user-images.githubusercontent.com/48099126/216185589-34b1b64c-7beb-4bd8-81b8-19d8b84dc20b.png)
 
 ## Fluxo de Transações
 
