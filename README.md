@@ -39,7 +39,7 @@ tomar ações para cada tipo de status.
 
 A transação é registrada com o status de `created`, após isso ela vai para validação. Se for aprovada, ela continua o fluxo, caso o contrário ela vai para o fluxo de transações rejeitadas.
 
-![image](https://user-images.githubusercontent.com/48099126/215920551-1ddb6bc1-fe5c-4dd4-8c1b-8e5a63705a18.png)
+![image](https://user-images.githubusercontent.com/48099126/216184742-20434d9a-875b-46a8-9a1b-3b3742b3286d.png)
 
 ## Fluxo de Transações
 
@@ -115,14 +115,3 @@ make migrate
 Após rodar o projeto, os endpoint podem ser encontrados em:
 
 http://localhost:88/docs/
-
-## O que pode ser melhorado
-
-Como se trata de um sistema crítico, seria muito interessante ter logs de tudo o que acontece relacionado as transações.
-Um abordagem interessante para isso é fazer o sistema _Event Driven_, dessa forma armazenando todos os eventos para termos um histórico
-de tudo o que acontece com uma transação. Assim, poderiamos por exmplo ter mais pontos de ação para refazer um fluxo ou tomar uma decisão diferente,
-da mesma maneira que acontece hoje com as transações `rejected` e `succeeded`.
-
-*Obs: tentando implementar essas melhorias de arquitetura, fiz um novo repositório utilizando os estudo que havia feito sobre Event Driven*
-
-https://github.com/PedroPMS/picpay
