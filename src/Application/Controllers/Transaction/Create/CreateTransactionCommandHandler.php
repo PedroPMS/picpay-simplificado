@@ -32,13 +32,5 @@ class CreateTransactionCommandHandler implements CommandHandlerInterface
         $transaction->transactionWasCreated();
 
         $this->eventBus->getEventBus()->publish(...$transaction->pullDomainEvents());
-
-        // payee - find
-        // transaction - start transaction
-        // transaction - create transaction
-        // payer - update payer wallet
-        // payee - update payee wallet
-        // transaction - end transaction
-        // transaction dispatch payment event
     }
 }
