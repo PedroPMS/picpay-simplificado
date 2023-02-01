@@ -3,7 +3,7 @@
 namespace Picpay\Application\Controllers\Transaction\Create;
 
 use Picpay\Domain\Enums\Transaction\TransactionStatus;
-use Picpay\Domain\Services\Transaction\TransactionCreator;
+use Picpay\Domain\Services\Transaction\TransactionCreate;
 use Picpay\Domain\ValueObjects\Transaction\TransactionId;
 use Picpay\Domain\ValueObjects\Transaction\TransactionValue;
 use Picpay\Domain\ValueObjects\User\UserId;
@@ -15,7 +15,7 @@ class CreateTransactionCommandHandler implements CommandHandlerInterface
 {
     public function __construct(
         private readonly UuidGeneratorInterface $uuidGenerator,
-        private readonly TransactionCreator $transactionCreator,
+        private readonly TransactionCreate $transactionCreator,
         private readonly GetEventBusInterface $eventBus,
     ) {
     }

@@ -2,20 +2,20 @@
 
 namespace Picpay\Application\Subscribers\Transaction;
 
-use Picpay\Application\Controllers\Transaction\Credit\CreditTransactionCommand;
-use Picpay\Domain\Events\Transaction\TransactionDebited;
+use Picpay\Application\Controllers\Transaction\Notify\NotifyTransactionCommand;
+use Picpay\Domain\Events\Transaction\TransactionCredited;
 use Picpay\Shared\Domain\Bus\Event\DomainEventSubscriberInterface;
 use Picpay\Shared\Domain\Bus\Event\GetCommandBusInterface;
 
-class CreditTransactionWhenTransactionDebited implements DomainEventSubscriberInterface
+class NotifyPayeeWhenTransactionCredited implements DomainEventSubscriberInterface
 {
     public function __construct(private readonly GetCommandBusInterface $commandBus)
     {
     }
 
-    public function __invoke(TransactionDebited $event): void
+    public function __invoke(TransactionCredited $event): void
     {
-        $command = new CreditTransactionCommand($event->id);
+        $command = new NotifyTransactionCommand($event->id);
 
         $this->commandBus->getCommandBus()->dispatch($command);
     }
@@ -23,7 +23,7 @@ class CreditTransactionWhenTransactionDebited implements DomainEventSubscriberIn
     public static function subscribedTo(): array
     {
         return [
-            TransactionDebited::class,
+            TransactionCredited::class,
         ];
     }
 }

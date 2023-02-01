@@ -10,19 +10,18 @@ use Picpay\Domain\Exceptions\Transaction\TransactionNotFoundException;
 use Picpay\Domain\Exceptions\User\UserNotFoundException;
 use Picpay\Domain\Exceptions\Wallet\WalletNotFoundException;
 use Picpay\Domain\Services\User\UserFind;
-use Picpay\Domain\Services\Wallet\WalletAmountDebit;
+use Picpay\Domain\Services\Wallet\WalletAmountCredit;
 use Picpay\Domain\ValueObjects\Transaction\TransactionId;
 use Picpay\Domain\ValueObjects\User\UserId;
 use Picpay\Shared\Domain\DbTransactionInterface;
 
-class TransactionDebit
+class TransactionCredit
 {
     public function __construct(
         private readonly UserFind $userFinder,
         private readonly TransactionUpdate $transactionUpdater,
         private readonly TransactionFind $transactionFinder,
-        private readonly TransactionValidate $transactionValidator,
-        private readonly WalletAmountDebit $walletDebiter,
+        private readonly WalletAmountCredit $walletCrediter,
         private readonly DbTransactionInterface $dbTransaction,
     ) {
     }
@@ -32,15 +31,12 @@ class TransactionDebit
      * @throws WalletNotFoundException
      * @throws TransactionNotFoundException
      */
-    public function debitTransaction(TransactionId $id): Transaction
+    public function creditTransaction(TransactionId $id): Transaction
     {
         $transaction = $this->transactionFinder->findTransaction($id);
-        $payer = $this->userFinder->findUser(UserId::fromValue($transaction->payerId));
+        $payee = $this->userFinder->findUser(UserId::fromValue($transaction->payeeId));
 
-        $isValid = $this->transactionValidator->validateTransaction($payer, $transaction);
-        if ($isValid) {
-            $this->debitPayerWallet($transaction, $payer);
-        }
+        $this->creditPayeeWallet($transaction, $payee);
 
         return $transaction;
     }
@@ -48,14 +44,14 @@ class TransactionDebit
     /**
      * @throws WalletNotFoundException
      */
-    private function debitPayerWallet(Transaction $transaction, User $payer): void
+    private function creditPayeeWallet(Transaction $transaction, User $payee): void
     {
         $this->dbTransaction->beginTransaction();
 
         try {
-            $this->walletDebiter->debitWalletAmount($payer->id, $transaction->value);
-            $this->transactionUpdater->updateTransactionStatus($transaction->id, TransactionStatus::DEBITED);
-            $transaction->transactionWasDebited();
+            $this->walletCrediter->creditWalletAmount($payee->id, $transaction->value);
+            $this->transactionUpdater->updateTransactionStatus($transaction->id, TransactionStatus::SUCCEEDED);
+            $transaction->transactionWasCredited();
             $this->dbTransaction->commit();
         } catch (Exception $exception) {
             $this->dbTransaction->rollBack();

@@ -7,7 +7,7 @@ use Picpay\Domain\Enums\Transaction\TransactionStatus;
 use Picpay\Domain\Repositories\TransactionRepository;
 use Picpay\Domain\ValueObjects\Transaction\TransactionId;
 
-class TransactionUpdater
+class TransactionUpdate
 {
     public function __construct(
         private readonly TransactionRepository $repository,
