@@ -8,7 +8,7 @@ use Picpay\Domain\ValueObjects\User\UserId;
 use Picpay\Domain\ValueObjects\Wallet\WalletAmount;
 use Picpay\Domain\ValueObjects\Wallet\WalletId;
 
-class WalletUpdater
+class WalletAmountUpdater
 {
     public function __construct(private readonly WalletRepository $repository)
     {

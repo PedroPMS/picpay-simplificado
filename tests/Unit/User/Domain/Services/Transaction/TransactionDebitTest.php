@@ -9,8 +9,6 @@ use Picpay\Domain\Entities\Transaction;
 use Picpay\Domain\Entities\User;
 use Picpay\Domain\Enums\Transaction\TransactionStatus;
 use Picpay\Domain\Enums\User\UserType;
-use Picpay\Domain\Exceptions\Transaction\PayerDoesntHaveEnoughBalanceException;
-use Picpay\Domain\Exceptions\Transaction\ShopkeeperCantStartTransactionException;
 use Picpay\Domain\Exceptions\Transaction\TransactionNotFoundException;
 use Picpay\Domain\Exceptions\Transaction\TransactionStatusException;
 use Picpay\Domain\Exceptions\Transaction\TransactionUnautorizedException;
@@ -93,7 +91,7 @@ class TransactionDebitTest extends TestCase
         $validateStub->shouldReceive('validateTransaction')
             ->once()
             ->with(m::type(User::class), m::type(Transaction::class))
-            ->andReturn();
+            ->andReturn(true);
 
         $walletDebitStub->shouldReceive('debitWalletAmount')
             ->once()
@@ -179,7 +177,7 @@ class TransactionDebitTest extends TestCase
         $validateStub->shouldReceive('validateTransaction')
             ->once()
             ->with(m::type(User::class), m::type(Transaction::class))
-            ->andReturn();
+            ->andReturn(true);
 
         // Act
         $validatorAction = new TransactionDebit(
@@ -245,7 +243,7 @@ class TransactionDebitTest extends TestCase
         $validateStub->shouldReceive('validateTransaction')
             ->once()
             ->with(m::type(User::class), m::type(Transaction::class))
-            ->andThrows(ShopkeeperCantStartTransactionException::class);
+            ->andReturn(false);
 
         // Act
         $validatorAction = new TransactionDebit(
@@ -311,7 +309,7 @@ class TransactionDebitTest extends TestCase
         $validateStub->shouldReceive('validateTransaction')
             ->once()
             ->with(m::type(User::class), m::type(Transaction::class))
-            ->andThrows(PayerDoesntHaveEnoughBalanceException::class);
+            ->andReturn(false);
 
         // Act
         $validatorAction = new TransactionDebit(
@@ -377,7 +375,7 @@ class TransactionDebitTest extends TestCase
         $validateStub->shouldReceive('validateTransaction')
             ->once()
             ->with(m::type(User::class), m::type(Transaction::class))
-            ->andThrows(TransactionUnautorizedException::class);
+            ->andReturn(false);
 
         // Act
         $validatorAction = new TransactionDebit(
