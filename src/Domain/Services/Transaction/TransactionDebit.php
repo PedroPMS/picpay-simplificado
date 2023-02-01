@@ -6,10 +6,7 @@ use Exception;
 use Picpay\Domain\Entities\Transaction;
 use Picpay\Domain\Entities\User;
 use Picpay\Domain\Enums\Transaction\TransactionStatus;
-use Picpay\Domain\Exceptions\Transaction\PayerDoesntHaveEnoughBalanceException;
-use Picpay\Domain\Exceptions\Transaction\ShopkeeperCantStartTransactionException;
 use Picpay\Domain\Exceptions\Transaction\TransactionNotFoundException;
-use Picpay\Domain\Exceptions\Transaction\TransactionUnautorizedException;
 use Picpay\Domain\Exceptions\User\UserNotFoundException;
 use Picpay\Domain\Exceptions\Wallet\WalletNotFoundException;
 use Picpay\Domain\Services\User\UserFind;
@@ -40,11 +37,9 @@ class TransactionDebit
         $transaction = $this->transactionFinder->findTransaction($id);
         $payer = $this->userFinder->findUser(UserId::fromValue($transaction->payerId));
 
-        try {
-            $this->transactionValidator->validateTransaction($payer, $transaction);
+        $isValid = $this->transactionValidator->validateTransaction($payer, $transaction);
+        if ($isValid) {
             $this->debitPayerWallet($transaction, $payer);
-        } catch (PayerDoesntHaveEnoughBalanceException|ShopkeeperCantStartTransactionException|TransactionUnautorizedException $exception) {
-            $transaction->transactionWasRejected($exception->getMessage());
         }
 
         return $transaction;

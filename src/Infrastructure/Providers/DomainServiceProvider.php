@@ -5,6 +5,7 @@ namespace Picpay\Infrastructure\Providers;
 use Illuminate\Support\ServiceProvider;
 use Picpay\Application\Controllers\Transaction\Create\CreateTransactionCommandHandler;
 use Picpay\Application\Controllers\Transaction\Debit\DebitTransactionCommandHandler;
+use Picpay\Application\Controllers\Transaction\Notify\NotifyTransactionCommandHandler;
 use Picpay\Application\Subscribers\Transaction\CreditTransactionWhenTransactionDebited;
 use Picpay\Application\Subscribers\Transaction\DebitTransactionWhenTransactionCreated;
 use Picpay\Application\Subscribers\Transaction\NotifyPayerWhenTransactionInvalidated;
@@ -13,7 +14,9 @@ use Picpay\Domain\Repositories\TransactionRepository;
 use Picpay\Domain\Repositories\UserRepository;
 use Picpay\Domain\Repositories\WalletRepository;
 use Picpay\Domain\Services\Transaction\TransactionAuthorizer;
+use Picpay\Domain\Services\Transaction\TransactionNotifier;
 use Picpay\Infrastructure\Providers\Http\Transaction\TransactionAuthorizerClient;
+use Picpay\Infrastructure\Providers\Http\Transaction\TransactionNotifierClient;
 use Picpay\Infrastructure\Repositories\Eloquent\TransactionEloquentRepository;
 use Picpay\Infrastructure\Repositories\Eloquent\UserEloquentRepository;
 use Picpay\Infrastructure\Repositories\Eloquent\WalletEloquentRepository;
@@ -63,6 +66,11 @@ class DomainServiceProvider extends ServiceProvider
             DebitTransactionCommandHandler::class,
             'command_handler'
         );
+
+        $this->app->tag(
+            NotifyTransactionCommandHandler::class,
+            'command_handler'
+        );
     }
 
     private function interfaceBinding()
@@ -73,5 +81,6 @@ class DomainServiceProvider extends ServiceProvider
         $this->app->bind(TransactionRepository::class, TransactionEloquentRepository::class);
 
         $this->app->bind(TransactionAuthorizer::class, TransactionAuthorizerClient::class);
+        $this->app->bind(TransactionNotifier::class, TransactionNotifierClient::class);
     }
 }

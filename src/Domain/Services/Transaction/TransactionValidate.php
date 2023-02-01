@@ -4,6 +4,7 @@ namespace Picpay\Domain\Services\Transaction;
 
 use Picpay\Domain\Entities\Transaction;
 use Picpay\Domain\Entities\User;
+use Picpay\Domain\Enums\Transaction\TransactionStatus;
 use Picpay\Domain\Exceptions\Transaction\PayerDoesntHaveEnoughBalanceException;
 use Picpay\Domain\Exceptions\Transaction\ShopkeeperCantStartTransactionException;
 use Picpay\Domain\Exceptions\Transaction\TransactionUnautorizedException;
@@ -12,27 +13,34 @@ use Picpay\Domain\Exceptions\Wallet\WalletNotFoundException;
 class TransactionValidate
 {
     public function __construct(
+        private readonly TransactionUpdater $transactionUpdater,
         private readonly TransactionAuthorizer $transactionAuthorizer,
         private readonly PayerHasEnoughBalanceForTransaction $hasEnoughBalanceForTransaction
     ) {
     }
 
     /**
-     * @throws ShopkeeperCantStartTransactionException
-     * @throws PayerDoesntHaveEnoughBalanceException
      * @throws WalletNotFoundException
-     * @throws TransactionUnautorizedException
      */
-    public function validateTransaction(User $payer, Transaction $transaction): void
+    public function validateTransaction(User $payer, Transaction $transaction): bool
     {
-        if ($payer->isShopkeeper()) {
-            throw new ShopkeeperCantStartTransactionException();
-        }
+        try {
+            if ($payer->isShopkeeper()) {
+                throw new ShopkeeperCantStartTransactionException();
+            }
 
-        $this->hasEnoughBalanceForTransaction->checkPayerHasEnoughBalanceForTransaction($payer->id, $transaction->value);
+            $this->hasEnoughBalanceForTransaction->checkPayerHasEnoughBalanceForTransaction($payer->id, $transaction->value);
 
-        if (! $this->transactionAuthorizer->isAutorized()) {
-            throw new TransactionUnautorizedException();
+            if (! $this->transactionAuthorizer->isAutorized()) {
+                throw new TransactionUnautorizedException();
+            }
+
+            return true;
+        } catch (PayerDoesntHaveEnoughBalanceException|ShopkeeperCantStartTransactionException|TransactionUnautorizedException $exception) {
+            $this->transactionUpdater->updateTransactionStatus($transaction->id, TransactionStatus::REJECTED);
+            $transaction->transactionWasRejected($exception->getMessage());
+
+            return false;
         }
     }
 }
