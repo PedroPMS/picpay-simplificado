@@ -11,13 +11,12 @@ use Picpay\Domain\Enums\Transaction\TransactionStatus;
 use Picpay\Domain\Enums\User\UserType;
 use Picpay\Domain\Exceptions\Transaction\TransactionNotFoundException;
 use Picpay\Domain\Exceptions\Transaction\TransactionStatusException;
-use Picpay\Domain\Exceptions\Transaction\TransactionUnautorizedException;
 use Picpay\Domain\Exceptions\User\UserNotFoundException;
 use Picpay\Domain\Exceptions\User\UserTypeException;
 use Picpay\Domain\Exceptions\Wallet\WalletNotFoundException;
 use Picpay\Domain\Services\Transaction\TransactionDebit;
 use Picpay\Domain\Services\Transaction\TransactionFind;
-use Picpay\Domain\Services\Transaction\TransactionUpdater;
+use Picpay\Domain\Services\Transaction\TransactionUpdate;
 use Picpay\Domain\Services\Transaction\TransactionValidate;
 use Picpay\Domain\Services\User\UserFind;
 use Picpay\Domain\Services\Wallet\WalletAmountDebit;
@@ -71,7 +70,7 @@ class TransactionDebitTest extends TestCase
         );
 
         $userFinderStub = m::mock(UserFind::class);
-        $transactionUpdaterStub = m::mock(TransactionUpdater::class);
+        $transactionUpdaterStub = m::mock(TransactionUpdate::class);
         $transactionFinderStub = m::mock(TransactionFind::class);
         $validateStub = m::mock(TransactionValidate::class);
         $walletDebitStub = m::mock(WalletAmountDebit::class);
@@ -155,7 +154,7 @@ class TransactionDebitTest extends TestCase
         );
 
         $userFinderStub = m::mock(UserFind::class);
-        $transactionUpdaterDummy = m::mock(TransactionUpdater::class);
+        $transactionUpdaterDummy = m::mock(TransactionUpdate::class);
         $transactionFinderStub = m::mock(TransactionFind::class);
         $validateStub = m::mock(TransactionValidate::class);
         $walletDebitStub = m::mock(WalletAmountDebit::class);
@@ -223,7 +222,7 @@ class TransactionDebitTest extends TestCase
         );
 
         $userFinderStub = m::mock(UserFind::class);
-        $transactionUpdaterStub = m::mock(TransactionUpdater::class);
+        $transactionUpdaterStub = m::mock(TransactionUpdate::class);
         $transactionFinderStub = m::mock(TransactionFind::class);
         $validateStub = m::mock(TransactionValidate::class);
         $walletDebitDummy = m::mock(WalletAmountDebit::class);
@@ -289,7 +288,7 @@ class TransactionDebitTest extends TestCase
         );
 
         $userFinderStub = m::mock(UserFind::class);
-        $transactionUpdaterStub = m::mock(TransactionUpdater::class);
+        $transactionUpdaterStub = m::mock(TransactionUpdate::class);
         $transactionFinderStub = m::mock(TransactionFind::class);
         $validateStub = m::mock(TransactionValidate::class);
         $walletDebitDummy = m::mock(WalletAmountDebit::class);
@@ -355,7 +354,7 @@ class TransactionDebitTest extends TestCase
         );
 
         $userFinderStub = m::mock(UserFind::class);
-        $transactionUpdaterStub = m::mock(TransactionUpdater::class);
+        $transactionUpdaterStub = m::mock(TransactionUpdate::class);
         $transactionFinderStub = m::mock(TransactionFind::class);
         $validateStub = m::mock(TransactionValidate::class);
         $walletDebitDummy = m::mock(WalletAmountDebit::class);

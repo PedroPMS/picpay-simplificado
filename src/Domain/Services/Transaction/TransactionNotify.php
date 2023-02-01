@@ -8,7 +8,7 @@ class TransactionNotify
 {
     public function __construct(
         private readonly TransactionNotifier $notifier,
-        private readonly TransactionUpdater $transactionUpdater
+        private readonly TransactionUpdate $transactionUpdater
     ) {
     }
 

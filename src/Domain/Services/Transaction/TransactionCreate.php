@@ -9,7 +9,7 @@ use Picpay\Domain\ValueObjects\Transaction\TransactionId;
 use Picpay\Domain\ValueObjects\Transaction\TransactionValue;
 use Picpay\Domain\ValueObjects\User\UserId;
 
-class TransactionCreator
+class TransactionCreate
 {
     public function __construct(private readonly TransactionRepository $repository)
     {

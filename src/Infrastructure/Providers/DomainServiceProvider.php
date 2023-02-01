@@ -4,10 +4,12 @@ namespace Picpay\Infrastructure\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Picpay\Application\Controllers\Transaction\Create\CreateTransactionCommandHandler;
+use Picpay\Application\Controllers\Transaction\Credit\CreditTransactionCommandHandler;
 use Picpay\Application\Controllers\Transaction\Debit\DebitTransactionCommandHandler;
 use Picpay\Application\Controllers\Transaction\Notify\NotifyTransactionCommandHandler;
 use Picpay\Application\Subscribers\Transaction\CreditTransactionWhenTransactionDebited;
 use Picpay\Application\Subscribers\Transaction\DebitTransactionWhenTransactionCreated;
+use Picpay\Application\Subscribers\Transaction\NotifyPayeeWhenTransactionCredited;
 use Picpay\Application\Subscribers\Transaction\NotifyPayerWhenTransactionInvalidated;
 use Picpay\Application\Subscribers\Wallet\CreateWalletWhenUserPersisted;
 use Picpay\Domain\Repositories\TransactionRepository;
@@ -53,6 +55,11 @@ class DomainServiceProvider extends ServiceProvider
             CreditTransactionWhenTransactionDebited::class,
             'domain_event_subscriber'
         );
+
+        $this->app->tag(
+            NotifyPayeeWhenTransactionCredited::class,
+            'domain_event_subscriber'
+        );
     }
 
     private function handlerTagging()
@@ -69,6 +76,11 @@ class DomainServiceProvider extends ServiceProvider
 
         $this->app->tag(
             NotifyTransactionCommandHandler::class,
+            'command_handler'
+        );
+
+        $this->app->tag(
+            CreditTransactionCommandHandler::class,
             'command_handler'
         );
     }

@@ -13,7 +13,7 @@ use Picpay\Domain\Exceptions\Wallet\WalletNotFoundException;
 class TransactionValidate
 {
     public function __construct(
-        private readonly TransactionUpdater $transactionUpdater,
+        private readonly TransactionUpdate $transactionUpdater,
         private readonly TransactionAuthorizer $transactionAuthorizer,
         private readonly PayerHasEnoughBalanceForTransaction $hasEnoughBalanceForTransaction
     ) {
